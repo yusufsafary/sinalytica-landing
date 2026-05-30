@@ -103,20 +103,6 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-600">
           <p>&copy; {new Date().getFullYear()} Sinalytic. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <a
-              href="https://orynth.dev/projects/sinalytic"
-              target="_blank"
-              rel="noopener"
-              className="opacity-70 hover:opacity-100 transition-opacity"
-            >
-              <img
-                src="https://orynth.dev/api/badge/sinalytic?theme=light&style=default"
-                alt="Featured on Orynth"
-                width="130"
-                height="40"
-                className="h-8 w-auto"
-              />
-            </a>
             <p className="flex items-center gap-1">
               Live at{" "}
               <a href="https://sinalytic.life" className="text-primary hover:underline ml-1">
