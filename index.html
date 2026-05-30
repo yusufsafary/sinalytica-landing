@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sinalytica — Your AI Knowledge Agent Inside Telegram</title>
+  <meta name="description" content="Sinalytica is an AI Agent that lives inside Telegram and transforms any content into structured knowledge summaries instantly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #1D1D1F;
+      font-size: 17px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #1D1D1F;
+    }
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .nav-center a {
+      font-size: 15px;
+      font-weight: 500;
+      color: #1D1D1F;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-center a:hover { opacity: 1; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    /* Language toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      background: #F5F5F7;
+      border-radius: 20px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .lang-btn {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 16px;
+      border: none;
+      background: transparent;
+      color: #6E6E73;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+    .lang-btn.active {
+      background: #ffffff;
+      color: #1D1D1F;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+    /* Telegram CTA button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1D1D1F;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #1D1D1F;
+      font-size: 17px;
+      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: 100px;
+      border: 1.5px solid #1D1D1F;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn-ghost:hover {
+      background: rgba(29,29,31,0.04);
+      transform: scale(1.02);
+    }
+
+    /* ============================================================
+       SCROLL ANIMATION
+    ============================================================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 48px 80px;
+      background: #ffffff;
+      gap: 64px;
+    }
+    .hero-content {
+      flex: 1;
+      max-width: 580px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #F5F5F7;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6E6E73;
+      margin-bottom: 28px;
+      letter-spacing: 0.3px;
+    }
+    .hero-badge span.dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #34C759;
+      display: inline-block;
+    }
+    .hero-headline {
+      font-size: clamp(42px, 5.5vw, 64px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.08;
+      color: #1D1D1F;
+      margin-bottom: 24px;
+    }
+    .hero-subtext {
+      font-size: 18px;
+      color: #6E6E73;
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 40px;
+    }
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .btn-hero-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #1D1D1F;
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn-hero-primary:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .social-proof {
+      font-size: 13px;
+      color: #6E6E73;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .social-proof::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: #D2D2D7;
+    }
+
+    /* Telegram Mockup */
+    .hero-visual {
+      flex: 1;
+      max-width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tg-phone {
+      width: 320px;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+      overflow: hidden;
+      font-size: 14px;
+    }
+    .tg-header {
+      background: #ffffff;
+      border-bottom: 1px solid #F0F0F0;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tg-back {
+      color: #0A84FF;
+      font-size: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .tg-back svg { width: 10px; height: 16px; }
+    .tg-avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1D1D1F 0%, #434343 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .tg-info { flex: 1; }
+    .tg-name { font-weight: 700; font-size: 15px; color: #1D1D1F; }
+    .tg-status { font-size: 12px; color: #34C759; }
+    .tg-body {
+      background: #F5F5F7;
+      padding: 16px;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    /* Chat bubbles */
+    .msg-out {
+      align-self: flex-end;
+      background: #1D1D1F;
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 16px 16px 4px 16px;
+      max-width: 80%;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .msg-time-out {
+      font-size: 11px;
+      opacity: 0.5;
+      text-align: right;
+      margin-top: 3px;
+    }
+    .msg-in {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #1D1D1F;
+      padding: 10px 14px;
+      border-radius: 16px 16px 16px 4px;
+      max-width: 88%;
+      font-size: 13px;
+      line-height: 1.5;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .msg-label {
+      font-size: 11px;
+      color: #6E6E73;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .summary-card {
+      background: #ffffff;
+      border: 1px solid #E8E8ED;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .summary-card .sc-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: #1D1D1F;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .summary-card .sc-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px; height: 14px;
+      background: #1D1D1F;
+      border-radius: 2px;
+    }
+    .summary-card .sc-item {
+      font-size: 12px;
+      color: #6E6E73;
+      padding: 3px 0;
+      padding-left: 9px;
+      border-left: 2px solid #E8E8ED;
+      margin-bottom: 3px;
+      line-height: 1.5;
+    }
+    .summary-card .sc-tag {
+      display: inline-flex;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1D1D1F;
+      background: #F5F5F7;
+      border-radius: 6px;
+      padding: 2px 7px;
+      margin-top: 6px;
+    }
+    .tg-input {
+      background: #ffffff;
+      border-top: 1px solid #F0F0F0;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tg-input-field {
+      flex: 1;
+      background: #F5F5F7;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 14px;
+      color: #6E6E73;
+    }
+    .tg-send {
+      width: 30px; height: 30px;
+      background: #1D1D1F;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .tg-send svg { width: 14px; height: 14px; fill: white; }
+
+    /* ============================================================
+       FEATURES SECTION
+    ============================================================ */
+    #features {
+      background: #F5F5F7;
+      padding: 120px 48px;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 72px;
+    }
+    .section-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #6E6E73;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: #1D1D1F;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 17px;
+      color: #6E6E73;
+      line-height: 1.7;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #E8E8ED;
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      cursor: default;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+      border-color: #1D1D1F;
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: #F5F5F7;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .feature-icon svg { width: 22px; height: 22px; }
+    .feature-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1D1D1F;
+      margin-bottom: 8px;
+    }
+    .feature-desc {
+      font-size: 15px;
+      color: #6E6E73;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       HOW IT WORKS
+    ============================================================ */
+    #how {
+      background: #ffffff;
+      padding: 120px 48px;
+    }
+    .steps-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .step {
+      flex: 1;
+      text-align: center;
+      padding: 0 32px;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 28px;
+      right: -16px;
+      width: 32px;
+      height: 2px;
+      background: #D2D2D7;
+    }
+    .step-number {
+      font-size: 56px;
+      font-weight: 800;
+      color: #F0F0F0;
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: -2px;
+    }
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1D1D1F;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .step-desc {
+      font-size: 15px;
+      color: #6E6E73;
+      line-height: 1.6;
+      max-width: 220px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       CTA BANNER
+    ============================================================ */
+    #cta-banner {
+      background: #1D1D1F;
+      padding: 100px 48px;
+      text-align: center;
+    }
+    #cta-banner .section-title { color: #ffffff; }
+    #cta-banner .section-sub { color: rgba(255,255,255,0.55); }
+    .cta-banner-actions {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      color: #1D1D1F;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 18px 40px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn-banner:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 32px rgba(255,255,255,0.15);
+    }
+    .cta-or {
+      font-size: 14px;
+      color: rgba(255,255,255,0.3);
+    }
+    .cta-waitlist-link {
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      cursor: pointer;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    .cta-waitlist-link:hover { color: #ffffff; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    #footer {
+      background: #F5F5F7;
+      padding: 56px 48px;
+      border-top: 1px solid #E8E8ED;
+    }
+    .footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 6px; }
+    .footer-logo { font-size: 18px; font-weight: 700; color: #1D1D1F; }
+    .footer-tagline { font-size: 13px; color: #6E6E73; }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: #6E6E73;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #1D1D1F; }
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border: 1px solid #D2D2D7;
+      border-radius: 50%;
+      color: #6E6E73;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .footer-social a:hover { border-color: #1D1D1F; color: #1D1D1F; }
+    .footer-copy { font-size: 12px; color: #6E6E73; }
+
+    /* ============================================================
+       WAITLIST MODAL
+    ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-box {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+      transform: translateY(16px);
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+    .modal-overlay.open .modal-box { transform: translateY(0); }
+    .modal-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .modal-sub {
+      font-size: 15px;
+      color: #6E6E73;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .modal-input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1.5px solid #D2D2D7;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      color: #1D1D1F;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 14px;
+    }
+    .modal-input:focus { border-color: #1D1D1F; }
+    .modal-submit {
+      width: 100%;
+      padding: 14px;
+      background: #1D1D1F;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .modal-submit:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
+      background: #F5F5F7;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      color: #6E6E73;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+    }
+    .modal-box { position: relative; }
+    .modal-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .modal-success.show { display: flex; }
+    .modal-form.hide { display: none; }
+    .success-icon {
+      width: 56px; height: 56px;
+      background: #F5F5F7;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 4px;
+    }
+    .success-icon svg { width: 24px; height: 24px; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      #hero { flex-direction: column; padding: 100px 32px 60px; text-align: center; }
+      .hero-content { max-width: 100%; }
+      .hero-subtext { margin: 0 auto 40px; }
+      .hero-ctas { justify-content: center; }
+      .social-proof { justify-content: center; }
+      .hero-visual { max-width: 320px; width: 100%; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-center { display: none; }
+      #navbar { padding: 0 24px; }
+    }
+    @media (max-width: 768px) {
+      #hero { padding: 90px 24px 48px; gap: 40px; }
+      #features, #how, #cta-banner { padding: 80px 24px; }
+      #footer { padding: 40px 24px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .steps-row { flex-direction: column; gap: 40px; align-items: center; }
+      .step:not(:last-child)::after { display: none; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-right { align-items: flex-start; }
+      .modal-box { padding: 36px 24px; }
+    }
+    @media (max-width: 375px) {
+      .hero-headline { font-size: 36px; }
+      .btn-hero-primary, .btn-ghost { font-size: 15px; padding: 13px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Sinalytica</a>
+    <div class="nav-center">
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#how" data-i18n="nav_how">How It Works</a>
+      <a href="#cta-banner" data-i18n="nav_start">Start Now</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('jp')">JP</button>
+      </div>
+      <a href="https://t.me/SinalyticaBot" target="_blank" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.018 9.516c-.148.661-.54.821-1.093.511l-3.033-2.236-1.464 1.41c-.161.161-.297.297-.61.297l.218-3.083 5.61-5.07c.244-.218-.053-.337-.378-.12L7.22 15.018l-2.985-.932c-.65-.202-.66-.65.135-.963l11.67-4.503c.538-.196 1.01.131.522.628z"/>
+        </svg>
+        <span data-i18n="nav_cta">Start on Telegram</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section id="hero">
+    <div class="hero-content fade-up visible">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span data-i18n="hero_badge">Now live — Try it free</span>
+      </div>
+      <h1 class="hero-headline">
+        <span data-i18n="hero_h1_line1">Turn anything</span><br>
+        <span data-i18n="hero_h1_line2">into knowledge.</span><br>
+        <span data-i18n="hero_h1_line3">Right inside Telegram.</span>
+      </h1>
+      <p class="hero-subtext" data-i18n="hero_sub">
+        Sinalytica is an AI Agent that reads links, PDFs, YouTube videos, Office documents, audio, and images — delivering clean, structured summaries directly in your Telegram chat. No new apps. No switching tabs.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://t.me/SinalyticaBot" target="_blank" class="btn-hero-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.018 9.516c-.148.661-.54.821-1.093.511l-3.033-2.236-1.464 1.41c-.161.161-.297.297-.61.297l.218-3.083 5.61-5.07c.244-.218-.053-.337-.378-.12L7.22 15.018l-2.985-.932c-.65-.202-.66-.65.135-.963l11.67-4.503c.538-.196 1.01.131.522.628z"/>
+          </svg>
+          <span data-i18n="hero_cta_primary">Start on Telegram</span>
+        </a>
+        <button class="btn-ghost" onclick="openWaitlist()" data-i18n="hero_cta_secondary">Join the Waitlist</button>
+      </div>
+      <div class="social-proof">
+        <span data-i18n="hero_social_proof">Trusted by early users across 10+ countries</span>
+      </div>
+    </div>
+
+    <!-- Telegram Chat Mockup -->
+    <div class="hero-visual fade-up visible">
+      <div class="tg-phone">
+        <!-- Header -->
+        <div class="tg-header">
+          <div class="tg-back">
+            <svg viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 2L2 8L8 14" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="tg-avatar">S</div>
+          <div class="tg-info">
+            <div class="tg-name">SinalyticaBot</div>
+            <div class="tg-status">online</div>
+          </div>
+        </div>
+        <!-- Chat Body -->
+        <div class="tg-body">
+          <!-- User sends a link -->
+          <div class="msg-out">
+            https://youtube.com/watch?v=dQw4w9WgXcQ
+            <div class="msg-time-out">09:41</div>
+          </div>
+          <!-- Bot typing indicator then summary -->
+          <div class="msg-in">
+            <div class="msg-label">Summary ready</div>
+            <div class="summary-card">
+              <div class="sc-title">Video Summary</div>
+              <div class="sc-item">Topic: Music &amp; media strategy from the 80s</div>
+              <div class="sc-item">Duration: 3 min 32 sec</div>
+              <div class="sc-item">Key insight: Unexpected content can drive viral reach through anticipation bias</div>
+              <div class="sc-item">Takeaway: Authenticity paired with contrast outperforms polished ads</div>
+              <span class="sc-tag">YouTube · AI Summary</span>
+            </div>
+            <div style="font-size:11px;color:#6E6E73;margin-top:6px;text-align:right;">09:41 · Sinalytica</div>
+          </div>
+          <!-- Follow-up user message -->
+          <div class="msg-out">
+            Can you also summarize this PDF?
+            <div class="msg-time-out">09:43</div>
+          </div>
+          <div class="msg-in" style="font-size:13px;color:#6E6E73;">
+            Of course — just send the file.
+            <div style="font-size:11px;color:#6E6E73;margin-top:4px;text-align:right;">09:43</div>
+          </div>
+        </div>
+        <!-- Input Bar -->
+        <div class="tg-input">
+          <div class="tg-input-field">Message SinalyticaBot</div>
+          <div class="tg-send">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURES SECTION
+  ============================================================ -->
+  <section id="features">
+    <div class="section-header fade-up">
+      <div class="section-eyebrow" data-i18n="features_eyebrow">Capabilities</div>
+      <h2 class="section-title" data-i18n="features_title">Everything. Anywhere. Instantly.</h2>
+      <p class="section-sub" data-i18n="features_sub">Any format. Any content. One bot.</p>
+    </div>
+    <div class="features-grid">
+      <!-- Web Links -->
+      <div class="feature-card fade-up">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="feature-name" data-i18n="feat1_name">Web Links</div>
+        <div class="feature-desc" data-i18n="feat1_desc">Paste any URL. Get a clean summary with key insights extracted.</div>
+      </div>
+      <!-- PDF -->
+      <div class="feature-card fade-up">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10,9 9,9 8,9"/>
+          </svg>
+        </div>
+        <div class="feature-name" data-i18n="feat2_name">PDF Documents</div>
+        <div class="feature-desc" data-i18n="feat2_desc">Upload research papers, reports, contracts. Sinalytica reads them for you.</div>
+      </div>
+      <!-- YouTube -->
+      <div class="feature-card fade-up">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20.06 12 20.06 12 20.06s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02"/>
+          </svg>
+        </div>
+        <div class="feature-name" data-i18n="feat3_name">YouTube Videos</div>
+        <div class="feature-desc" data-i18n="feat3_desc">Drop a video link. Receive a full transcript summary and key takeaways.</div>
+      </div>
+      <!-- Office Docs -->
+      <div class="feature-card fade-up">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div class="feature-name" data-i18n="feat4_name">Office Documents</div>
+        <div class="feature-desc" data-i18n="feat4_desc">Word, Excel, PowerPoint — all supported. Knowledge extracted instantly.</div>
+      </div>
+      <!-- Audio -->
+      <div class="feature-card fade-up">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </div>
+        <div class="feature-name" data-i18n="feat5_name">Audio Files</div>
+        <div class="feature-desc" data-i18n="feat5_desc">Voice memos, podcasts, recordings. Transcribed and summarized on demand.</div>
+      </div>
+      <!-- Images -->
+      <div class="feature-card fade-up">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21,15 16,10 5,21"/>
+          </svg>
+        </div>
+        <div class="feature-name" data-i18n="feat6_name">Images</div>
+        <div class="feature-desc" data-i18n="feat6_desc">Screenshots, infographics, scanned pages. AI reads what you see.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HOW IT WORKS
+  ============================================================ -->
+  <section id="how">
+    <div class="section-header fade-up">
+      <div class="section-eyebrow" data-i18n="how_eyebrow">Process</div>
+      <h2 class="section-title" data-i18n="how_title">Three steps. Zero friction.</h2>
+      <p class="section-sub" data-i18n="how_sub">Getting started takes less time than reading this sentence.</p>
+    </div>
+    <div class="steps-row fade-up">
+      <div class="step">
+        <div class="step-number">01</div>
+        <div class="step-title" data-i18n="step1_title">Open Telegram</div>
+        <p class="step-desc" data-i18n="step1_desc">Search for @SinalyticaBot and start a conversation. No sign-up required.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <div class="step-title" data-i18n="step2_title">Send Anything</div>
+        <p class="step-desc" data-i18n="step2_desc">Drop a link, file, or media — any format, any topic, any language.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <div class="step-title" data-i18n="step3_title">Get Intelligence</div>
+        <p class="step-desc" data-i18n="step3_desc">Receive a clean, structured summary in seconds. Save it, share it, or ask follow-up questions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BANNER
+  ============================================================ -->
+  <section id="cta-banner">
+    <div class="section-header fade-up" style="max-width:680px;">
+      <h2 class="section-title" data-i18n="cta_title">Start building your knowledge base. Today.</h2>
+      <p class="section-sub" data-i18n="cta_sub">No downloads. No new accounts. Just open Telegram and start.</p>
+    </div>
+    <div class="cta-banner-actions fade-up">
+      <a href="https://t.me/SinalyticaBot" target="_blank" class="btn-banner">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.018 9.516c-.148.661-.54.821-1.093.511l-3.033-2.236-1.464 1.41c-.161.161-.297.297-.61.297l.218-3.083 5.61-5.07c.244-.218-.053-.337-.378-.12L7.22 15.018l-2.985-.932c-.65-.202-.66-.65.135-.963l11.67-4.503c.538-.196 1.01.131.522.628z"/>
+        </svg>
+        <span data-i18n="cta_btn">Start on Telegram</span>
+      </a>
+      <span class="cta-or" data-i18n="cta_or">or</span>
+      <button class="cta-waitlist-link" onclick="openWaitlist()">
+        <span data-i18n="cta_waitlist">Join the Waitlist &rarr;</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">Sinalytica</div>
+        <div class="footer-tagline" data-i18n="footer_tagline">Your AI knowledge agent. Right inside Telegram.</div>
+      </div>
+      <div class="footer-links">
+        <a href="#" data-i18n="footer_privacy">Privacy Policy</a>
+        <a href="#" data-i18n="footer_terms">Terms of Service</a>
+        <a href="#" data-i18n="footer_contact">Contact</a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="footer-lang-en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" id="footer-lang-jp" onclick="setLang('jp')">JP</button>
+        </div>
+      </div>
+      <div class="footer-right">
+        <div class="footer-social">
+          <a href="#" aria-label="Telegram" title="Telegram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.018 9.516c-.148.661-.54.821-1.093.511l-3.033-2.236-1.464 1.41c-.161.161-.297.297-.61.297l.218-3.083 5.61-5.07c.244-.218-.053-.337-.378-.12L7.22 15.018l-2.985-.932c-.65-.202-.66-.65.135-.963l11.67-4.503c.538-.196 1.01.131.522.628z"/>
+            </svg>
+          </a>
+        </div>
+        <div class="footer-copy" data-i18n="footer_copy">&copy; 2025 Sinalytica. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       WAITLIST MODAL
+  ============================================================ -->
+  <div class="modal-overlay" id="waitlistModal" onclick="handleModalOverlayClick(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeWaitlist()" aria-label="Close">&times;</button>
+      <!-- Form -->
+      <div class="modal-form" id="modalForm">
+        <div class="modal-title" data-i18n="modal_title">Join the Waitlist</div>
+        <div class="modal-sub" data-i18n="modal_sub">Be among the first to get access. No spam, ever.</div>
+        <input type="email" class="modal-input" id="waitlistEmail" data-i18n-placeholder="modal_placeholder" placeholder="you@example.com" />
+        <button class="modal-submit" onclick="submitWaitlist()" data-i18n="modal_btn">Join Waitlist</button>
+      </div>
+      <!-- Success -->
+      <div class="modal-success" id="modalSuccess">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20,6 9,17 4,12"/>
+          </svg>
+        </div>
+        <div class="modal-title" style="font-size:22px;" data-i18n="modal_success_title">You're on the list!</div>
+        <div class="modal-sub" data-i18n="modal_success_sub">We'll be in touch when your access is ready.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* -------------------------------------------------------
+       INTERNATIONALIZATION (EN / JP)
+    ------------------------------------------------------- */
+    const i18n = {
+      en: {
+        nav_features:       "Features",
+        nav_how:            "How It Works",
+        nav_start:          "Start Now",
+        nav_cta:            "Start on Telegram",
+        hero_badge:         "Now live — Try it free",
+        hero_h1_line1:      "Turn anything",
+        hero_h1_line2:      "into knowledge.",
+        hero_h1_line3:      "Right inside Telegram.",
+        hero_sub:           "Sinalytica is an AI Agent that reads links, PDFs, YouTube videos, Office documents, audio, and images — delivering clean, structured summaries directly in your Telegram chat. No new apps. No switching tabs.",
+        hero_cta_primary:   "Start on Telegram",
+        hero_cta_secondary: "Join the Waitlist",
+        hero_social_proof:  "Trusted by early users across 10+ countries",
+        features_eyebrow:   "Capabilities",
+        features_title:     "Everything. Anywhere. Instantly.",
+        features_sub:       "Any format. Any content. One bot.",
+        feat1_name: "Web Links",         feat1_desc: "Paste any URL. Get a clean summary with key insights extracted.",
+        feat2_name: "PDF Documents",     feat2_desc: "Upload research papers, reports, contracts. Sinalytica reads them for you.",
+        feat3_name: "YouTube Videos",    feat3_desc: "Drop a video link. Receive a full transcript summary and key takeaways.",
+        feat4_name: "Office Documents",  feat4_desc: "Word, Excel, PowerPoint — all supported. Knowledge extracted instantly.",
+        feat5_name: "Audio Files",       feat5_desc: "Voice memos, podcasts, recordings. Transcribed and summarized on demand.",
+        feat6_name: "Images",            feat6_desc: "Screenshots, infographics, scanned pages. AI reads what you see.",
+        how_eyebrow:  "Process",
+        how_title:    "Three steps. Zero friction.",
+        how_sub:      "Getting started takes less time than reading this sentence.",
+        step1_title:  "Open Telegram",        step1_desc: "Search for @SinalyticaBot and start a conversation. No sign-up required.",
+        step2_title:  "Send Anything",        step2_desc: "Drop a link, file, or media — any format, any topic, any language.",
+        step3_title:  "Get Intelligence",     step3_desc: "Receive a clean, structured summary in seconds. Save it, share it, or ask follow-up questions.",
+        cta_title:    "Start building your knowledge base. Today.",
+        cta_sub:      "No downloads. No new accounts. Just open Telegram and start.",
+        cta_btn:      "Start on Telegram",
+        cta_or:       "or",
+        cta_waitlist: "Join the Waitlist →",
+        footer_tagline: "Your AI knowledge agent. Right inside Telegram.",
+        footer_privacy: "Privacy Policy",
+        footer_terms:   "Terms of Service",
+        footer_contact: "Contact",
+        footer_copy:    "© 2025 Sinalytica. All rights reserved.",
+        modal_title:         "Join the Waitlist",
+        modal_sub:           "Be among the first to get access. No spam, ever.",
+        modal_placeholder:   "you@example.com",
+        modal_btn:           "Join Waitlist",
+        modal_success_title: "You're on the list!",
+        modal_success_sub:   "We'll be in touch when your access is ready.",
+      },
+      jp: {
+        nav_features:       "機能",
+        nav_how:            "仕組み",
+        nav_start:          "今すぐ始める",
+        nav_cta:            "Telegramで始める",
+        hero_badge:         "公開中 — 無料でお試しください",
+        hero_h1_line1:      "あらゆる情報を",
+        hero_h1_line2:      "知識に変える。",
+        hero_h1_line3:      "Telegramの中で、即座に。",
+        hero_sub:           "SinalyticaはTelegram内で動くAIエージェントです。リンク、PDF、YouTube動画、Officeドキュメント、音声、画像を読み取り、整理された要約をチャットに直接届けます。新しいアプリ不要。タブの切り替えも不要。",
+        hero_cta_primary:   "Telegramで始める",
+        hero_cta_secondary: "ウェイトリストに参加",
+        hero_social_proof:  "10カ国以上のユーザーに信頼されています",
+        features_eyebrow:   "機能一覧",
+        features_title:     "何でも。どこでも。即座に。",
+        features_sub:       "あらゆる形式、あらゆるコンテンツ、1つのBot。",
+        feat1_name: "ウェブリンク",       feat1_desc: "URLを貼るだけ。重要な洞察を抽出した要約を取得。",
+        feat2_name: "PDFドキュメント",    feat2_desc: "論文、レポート、契約書をアップロード。Sinalyticaが読み解きます。",
+        feat3_name: "YouTube動画",       feat3_desc: "動画リンクを送るだけで、トランスクリプト要約と重要ポイントを受信。",
+        feat4_name: "Officeドキュメント", feat4_desc: "Word、Excel、PowerPointすべてに対応。即座に知識を抽出。",
+        feat5_name: "音声ファイル",       feat5_desc: "ボイスメモ、ポッドキャスト、録音。文字起こしと要約をオンデマンドで。",
+        feat6_name: "画像",               feat6_desc: "スクリーンショット、インフォグラフィック、スキャンページ。AIが視覚情報を読み取ります。",
+        how_eyebrow:  "利用の流れ",
+        how_title:    "3ステップ。摩擦ゼロ。",
+        how_sub:      "始めるのに、この文を読む時間もかかりません。",
+        step1_title:  "Telegramを開く",     step1_desc: "@SinalyticaBotを検索して会話を開始。登録不要。",
+        step2_title:  "何でも送る",          step2_desc: "リンク、ファイル、メディアを送るだけ。形式や言語は問いません。",
+        step3_title:  "インサイトを受け取る", step3_desc: "数秒でクリーンな構造化要約が届きます。保存、共有、追加質問も可能。",
+        cta_title:    "今日から、知識ベースを構築しよう。",
+        cta_sub:      "ダウンロード不要。アカウント登録不要。Telegramを開いて、すぐ始めるだけ。",
+        cta_btn:      "Telegramで始める",
+        cta_or:       "または",
+        cta_waitlist: "ウェイトリストに参加する →",
+        footer_tagline: "AIナレッジエージェント。Telegramの中に。",
+        footer_privacy: "プライバシーポリシー",
+        footer_terms:   "利用規約",
+        footer_contact: "お問い合わせ",
+        footer_copy:    "© 2025 Sinalytica. All rights reserved.",
+        modal_title:         "ウェイトリストに参加",
+        modal_sub:           "最初にアクセスできる一人になりましょう。スパムは一切ありません。",
+        modal_placeholder:   "your@email.com",
+        modal_btn:           "参加する",
+        modal_success_title: "登録完了！",
+        modal_success_sub:   "アクセス準備ができたらご連絡します。",
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      const strings = i18n[lang];
+
+      // Update all data-i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (strings[key]) el.innerHTML = strings[key];
+      });
+
+      // Update placeholder attributes
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (strings[key]) el.placeholder = strings[key];
+      });
+
+      // Update lang toggle active state (navbar + footer)
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        const isActive = (btn.textContent.trim() === 'EN' && lang === 'en') ||
+                         (btn.textContent.trim() === 'JP' && lang === 'jp');
+        btn.classList.toggle('active', isActive);
+      });
+
+      // Update html lang attribute
+      document.documentElement.lang = lang === 'jp' ? 'ja' : 'en';
+    }
+
+    /* -------------------------------------------------------
+       NAVBAR SCROLL EFFECT
+    ------------------------------------------------------- */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    /* -------------------------------------------------------
+       SCROLL ANIMATIONS (IntersectionObserver)
+    ------------------------------------------------------- */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      // Stagger cards in a grid
+      if (el.closest('.features-grid')) {
+        el.style.transitionDelay = `${(i % 6) * 0.08}s`;
+      }
+      observer.observe(el);
+    });
+
+    /* -------------------------------------------------------
+       WAITLIST MODAL
+    ------------------------------------------------------- */
+    function openWaitlist() {
+      const modal = document.getElementById('waitlistModal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      // Reset form state
+      document.getElementById('modalForm').classList.remove('hide');
+      document.getElementById('modalSuccess').classList.remove('show');
+      document.getElementById('waitlistEmail').value = '';
+      setTimeout(() => document.getElementById('waitlistEmail').focus(), 200);
+    }
+
+    function closeWaitlist() {
+      document.getElementById('waitlistModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleModalOverlayClick(e) {
+      if (e.target === document.getElementById('waitlistModal')) closeWaitlist();
+    }
+
+    function submitWaitlist() {
+      const email = document.getElementById('waitlistEmail').value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        document.getElementById('waitlistEmail').style.borderColor = '#FF3B30';
+        setTimeout(() => document.getElementById('waitlistEmail').style.borderColor = '', 2000);
+        return;
+      }
+      // Show success (no backend)
+      document.getElementById('modalForm').classList.add('hide');
+      document.getElementById('modalSuccess').classList.add('show');
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeWaitlist();
+    });
+  </script>
+</body>
+</html>
