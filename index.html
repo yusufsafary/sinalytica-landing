@@ -41,17 +41,36 @@
       position: fixed;
       inset: 0 0 auto;
       z-index: 800;
-      height: 56px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 32px;
+      padding: 0 40px;
       transition: background 0.3s, box-shadow 0.3s;
     }
+    /* On dark hero — show white text */
+    #nav:not(.stuck) .n-logo { color: rgba(255,255,255,0.92); }
+    #nav:not(.stuck) .n-mid a { color: rgba(255,255,255,0.45); }
+    #nav:not(.stuck) .n-mid a:hover { color: rgba(255,255,255,0.9); }
+    #nav:not(.stuck) .lang-toggle {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+    }
+    #nav:not(.stuck) .lt-btn { color: rgba(255,255,255,0.35); }
+    #nav:not(.stuck) .lt-btn.on {
+      background: rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.9);
+    }
+    #nav:not(.stuck) .n-cta {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+    }
+    #nav:not(.stuck) .n-cta:hover { background: rgba(255,255,255,0.18); }
     #nav.stuck {
-      background: rgba(247,246,243,0.88);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(247,246,243,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 1px 0 var(--border);
     }
     .n-logo {
@@ -60,6 +79,7 @@
       letter-spacing: -0.5px;
       color: var(--ink);
       flex-shrink: 0;
+      transition: color 0.3s;
     }
     .n-mid {
       display: flex;
@@ -80,7 +100,7 @@
     .n-right {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       flex-shrink: 0;
     }
     .lang-toggle {
@@ -90,11 +110,12 @@
       border-radius: var(--r-pill);
       padding: 3px;
       gap: 1px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .lt-btn {
       font-size: 11px;
       font-weight: 700;
-      padding: 3px 9px;
+      padding: 3px 10px;
       border-radius: var(--r-pill);
       border: none;
       background: transparent;
@@ -115,14 +136,14 @@
       color: var(--white);
       font-size: 13px;
       font-weight: 700;
-      padding: 8px 18px;
+      padding: 9px 18px;
       border-radius: var(--r-pill);
-      border: none;
+      border: 1px solid transparent;
       cursor: pointer;
       font-family: inherit;
       text-decoration: none;
       letter-spacing: -0.1px;
-      transition: opacity 0.15s, transform 0.15s;
+      transition: background 0.3s, border-color 0.3s, color 0.3s, opacity 0.15s, transform 0.15s;
     }
     .n-cta:hover { opacity: 0.82; transform: translateY(-1px); }
     .n-cta svg { flex-shrink: 0; }
@@ -131,10 +152,10 @@
     #hero {
       min-height: 100dvh;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 52fr 48fr;
       align-items: center;
       gap: 0;
-      padding-top: 56px;
+      padding-top: 60px;
       background: var(--dark);
       position: relative;
       overflow: hidden;
@@ -149,18 +170,19 @@
       opacity: 0.6;
     }
     .hero-left {
-      padding: 80px 48px 80px 64px;
+      padding: 80px 40px 80px 72px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       position: relative;
       z-index: 1;
+      max-width: 640px;
     }
     .hero-right {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 64px 64px 64px 16px;
+      padding: 80px 60px 80px 20px;
       position: relative;
       z-index: 1;
     }
@@ -223,10 +245,11 @@
     /* Cycling word */
     .cycle-line {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 0;
       overflow: hidden;
-      height: 1.0em;
+      /* height is set dynamically by JS to match actual rendered line height */
+      line-height: 1;
     }
     .cycle-prefix {
       font-size: clamp(48px, 5.5vw, 76px);
@@ -234,17 +257,19 @@
       letter-spacing: -3.5px;
       color: var(--white);
       white-space: nowrap;
+      line-height: 1;
     }
     .cycle-word-wrap {
       overflow: hidden;
-      height: 1em;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      /* height matched to one word — set by JS */
     }
     .cycle-stack {
       display: flex;
       flex-direction: column;
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .cycle-word {
       font-size: clamp(48px, 5.5vw, 76px);
@@ -252,10 +277,9 @@
       letter-spacing: -3.5px;
       color: rgba(255,255,255,0.92);
       white-space: nowrap;
-      height: 1em;
-      display: flex;
-      align-items: center;
-      line-height: 1.0;
+      display: block;
+      line-height: 1;
+      padding: 0.06em 0 0.08em;
     }
 
     .hero-desc {
@@ -313,37 +337,50 @@
     }
     .hero-stats {
       display: flex;
-      gap: 28px;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
     }
     .hstat {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
+      padding: 0 24px;
+      border-left: 1px solid rgba(255,255,255,0.08);
     }
+    .hstat:first-child { border-left: none; padding-left: 0; }
     .hstat-num {
-      font-size: 22px;
-      font-weight: 800;
+      font-size: 24px;
+      font-weight: 900;
       color: var(--white);
-      letter-spacing: -1px;
+      letter-spacing: -1.5px;
       line-height: 1;
     }
     .hstat-label {
       font-size: 11px;
-      color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.28);
       font-weight: 500;
-      letter-spacing: 0.2px;
+      letter-spacing: 0.1px;
     }
 
     /* ── TELEGRAM MOCKUP ───────────────────────────────── */
+    .tg-shell-wrap {
+      position: relative;
+      animation: mockup-float 5s ease-in-out infinite;
+    }
+    @keyframes mockup-float {
+      0%, 100% { transform: translateY(0px) rotate(-1deg); }
+      50%       { transform: translateY(-10px) rotate(-1deg); }
+    }
     .tg-shell {
-      width: 300px;
+      width: 320px;
       background: #1a1a1c;
       border-radius: 28px;
       overflow: hidden;
       box-shadow:
-        0 0 0 1px rgba(255,255,255,0.07),
-        0 40px 100px rgba(0,0,0,0.7),
-        0 8px 24px rgba(0,0,0,0.4);
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 50px 120px rgba(0,0,0,0.75),
+        0 12px 32px rgba(0,0,0,0.45);
       position: relative;
     }
     /* Shine edge */
@@ -352,7 +389,7 @@
       position: absolute;
       inset: 0;
       border-radius: 28px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 45%);
       pointer-events: none;
       z-index: 2;
     }
@@ -1014,16 +1051,22 @@
       #hero {
         grid-template-columns: 1fr;
         text-align: center;
-        padding-bottom: 48px;
+        padding-top: 60px;
+        padding-bottom: 56px;
       }
-      .hero-left { padding: 64px 28px 32px; align-items: center; }
+      .hero-left {
+        padding: 56px 28px 28px;
+        align-items: center;
+        max-width: 100%;
+      }
       .hero-eyebrow { justify-content: center; }
       .hero-desc { text-align: center; }
       .hero-btns { justify-content: center; }
       .hero-stats { justify-content: center; }
-      .hero-right { padding: 0 28px 48px; }
+      .hero-right { padding: 0 28px 56px; }
       .n-mid { display: none; }
       #nav { padding: 0 20px; }
+      .hstat { padding: 0 18px; }
     }
     @media (max-width: 720px) {
       .feat-grid { grid-template-columns: 1fr 1fr; }
@@ -1121,6 +1164,7 @@
   </div>
 
   <div class="hero-right">
+    <div class="tg-shell-wrap">
     <div class="tg-shell">
       <div class="tg-bar">
         <div class="tg-ava">S</div>
@@ -1169,6 +1213,7 @@
           <svg viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -1492,11 +1537,25 @@ window.addEventListener('scroll', () => {
 /* ── CYCLING WORD ───────────────────────────────────── */
 const stack = document.getElementById('cycleStack');
 const words = stack.querySelectorAll('.cycle-word');
+const cycleWrap = stack.parentElement; // .cycle-word-wrap
+const cycleLine = cycleWrap.parentElement; // .cycle-line
+
+function calibrateCycle() {
+  const h = words[0].getBoundingClientRect().height;
+  cycleWrap.style.height = h + 'px';
+  cycleLine.style.height = h + 'px';
+  stack.querySelectorAll('.cycle-word').forEach(w => w.style.height = h + 'px');
+}
+
+window.addEventListener('load', calibrateCycle);
+window.addEventListener('resize', calibrateCycle);
+
 let idx = 0;
 setInterval(() => {
   idx = (idx + 1) % words.length;
-  stack.style.transform = `translateY(-${idx}em)`;
-}, 2200);
+  const h = words[0].getBoundingClientRect().height || cycleWrap.offsetHeight;
+  stack.style.transform = `translateY(-${idx * h}px)`;
+}, 2400);
 
 /* ── SCROLL REVEAL ──────────────────────────────────── */
 const obs = new IntersectionObserver(entries => {
