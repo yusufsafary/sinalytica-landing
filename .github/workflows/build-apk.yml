@@ -1,0 +1,128 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag name (leave blank for apk-latest)'
+        required: false
+        default: 'apk-latest'
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Checkout ────────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Node.js ─────────────────────────────────────────────────────────────
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ── Web build ───────────────────────────────────────────────────────────
+      - name: Build Vite web app
+        run: npm run build
+
+      # ── Java ────────────────────────────────────────────────────────────────
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # ── Android SDK ─────────────────────────────────────────────────────────
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-34 build-tools;34.0.0'
+
+      # ── Capacitor ────────────────────────────────────────────────────────────
+      - name: Add Android platform (if not already present)
+        run: |
+          if [ ! -d "android" ]; then
+            npx cap add android
+          else
+            echo "android/ folder already exists, skipping add"
+          fi
+
+      - name: Sync Capacitor web assets
+        run: npx cap sync android --no-open
+
+      # ── Gradle cache ─────────────────────────────────────────────────────────
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # ── Build APK ────────────────────────────────────────────────────────────
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Rename APK to sinalytic.apk
+        run: |
+          mkdir -p release
+          cp android/app/build/outputs/apk/debug/app-debug.apk release/sinalytic.apk
+          echo "APK size: $(du -sh release/sinalytic.apk | cut -f1)"
+
+      # ── Upload artifact ──────────────────────────────────────────────────────
+      - name: Upload APK as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sinalytic-apk
+          path: release/sinalytic.apk
+          retention-days: 90
+
+      # ── GitHub Release ───────────────────────────────────────────────────────
+      - name: Create or update GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: release/sinalytic.apk
+          tag: ${{ github.event.inputs.release_tag || 'apk-latest' }}
+          name: 'Sinalytic APK — Latest Build'
+          body: |
+            ## Sinalytic Android App
+
+            Aplikasi Sinalytic untuk Android — ekstrak knowledge dari YouTube, TikTok, Instagram & artikel dalam hitungan detik.
+
+            ### ⬇️ Download
+            **[Download sinalytic.apk](https://github.com/yusufsafary/sinalytica-landing/releases/download/apk-latest/sinalytic.apk)**
+
+            ### Persyaratan
+            - Android 8.0+ (API 26+)
+            - Aktifkan "Install from unknown sources" di Settings
+
+            ### Cara Install
+            1. Download file `sinalytic.apk`
+            2. Buka file → tap Install
+            3. Jika muncul peringatan, pilih "Install Anyway"
+
+            ---
+            _Build otomatis dari commit [`${{ github.sha }}`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})_
+          allowUpdates: true
+          removeArtifacts: true
+          replacesArtifacts: true
+          makeLatest: true
+          token: ${{ secrets.GITHUB_TOKEN }}

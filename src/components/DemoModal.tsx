@@ -81,7 +81,7 @@ export default function DemoModal({ open, onClose }: DemoModalProps) {
                 <p className="text-gray-600 text-xs">
                   Want the full experience?{" "}
                   <a
-                    href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
+                    href="https://github.com/yusufsafary/sinalytica-landing/releases/download/apk-latest/sinalytic.apk"
                     className="text-primary hover:underline"
                     onClick={onClose}
                   >

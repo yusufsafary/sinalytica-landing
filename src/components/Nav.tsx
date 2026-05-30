@@ -216,7 +216,7 @@ export default function Nav() {
           <div className="hidden md:flex items-center gap-3">
             <LangToggle />
             <a
-              href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
+              href="https://github.com/yusufsafary/sinalytica-landing/releases/download/apk-latest/sinalytic.apk"
               className="h-9 inline-flex items-center gap-2 rounded-full border border-white/20 px-5 text-sm font-medium text-white hover:bg-white/10 transition-all hover:border-white/30"
             >
               <Download className="w-3.5 h-3.5" /> APK
@@ -297,7 +297,7 @@ export default function Nav() {
               <div className="pt-3 mt-1 flex flex-col gap-2.5 border-t border-white/8">
                 <LangToggle />
                 <a
-                  href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
+                  href="https://github.com/yusufsafary/sinalytica-landing/releases/download/apk-latest/sinalytic.apk"
                   className="h-11 flex items-center justify-center gap-2 rounded-xl border border-white/20 text-sm font-medium text-white hover:bg-white/8 transition-colors"
                 >
                   <Download className="w-4 h-4" /> Download APK (Android)

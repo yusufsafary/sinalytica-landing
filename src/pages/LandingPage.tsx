@@ -148,7 +148,7 @@ export default function LandingPage() {
                     <Play className="w-4 h-4 fill-white" /> {t.cta1}
                   </button>
                   <a
-                    href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
+                    href="https://github.com/yusufsafary/sinalytica-landing/releases/download/apk-latest/sinalytic.apk"
                     className="h-12 px-7 rounded-full border border-white/20 bg-white/5 text-white font-semibold hover:bg-white/10 active:scale-95 transition-all inline-flex items-center gap-2 text-sm backdrop-blur-sm"
                   >
                     <Download className="w-4 h-4" /> {t.cta2}
@@ -341,7 +341,7 @@ export default function LandingPage() {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
-                    href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
+                    href="https://github.com/yusufsafary/sinalytica-landing/releases/download/apk-latest/sinalytic.apk"
                     className="h-14 px-8 rounded-full bg-primary text-white font-bold text-base hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-3 justify-center shadow-lg shadow-primary/25"
                   >
                     <Download className="w-5 h-5" />
@@ -425,7 +425,7 @@ export default function LandingPage() {
                 <Play className="w-5 h-5 fill-white" /> Watch Demo in Browser
               </button>
               <a
-                href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
+                href="https://github.com/yusufsafary/sinalytica-landing/releases/download/apk-latest/sinalytic.apk"
                 className="h-14 px-10 rounded-full border border-white/15 bg-white/5 text-white font-bold text-lg hover:bg-white/10 transition-colors inline-flex items-center gap-2"
               >
                 <Download className="w-5 h-5" /> Try Demo with APK
