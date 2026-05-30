@@ -1,18 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Menu, X, Download } from "lucide-react";
 
 const NAV_LINKS = [
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#features", label: "Features" },
-  { href: "#demo", label: "Demo" },
-  { href: "#download", label: "Android APK" },
+  { href: "/how-it-works", label: "How it works", isPage: true },
+  { href: "#features", label: "Features", isPage: false },
+  { href: "#demo", label: "Demo", isPage: false },
+  { href: "#download", label: "Android APK", isPage: false },
 ];
+
+function SinalyticLogo() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="28" height="28" rx="7" fill="#2563eb"/>
+      <rect x="6" y="8" width="10" height="2" rx="1" fill="white" opacity="0.9"/>
+      <rect x="6" y="12" width="14" height="2" rx="1" fill="white" opacity="0.7"/>
+      <rect x="6" y="16" width="8" height="2" rx="1" fill="white" opacity="0.5"/>
+      <path d="M19 15 L22 12 L22 18 Z" fill="#93c5fd"/>
+      <circle cx="22" cy="19" r="2" fill="#60a5fa"/>
+      <path d="M20 19 L17 19" stroke="#60a5fa" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [location, navigate] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -20,10 +35,20 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollTo = (href: string) => {
+  const handleNavClick = (href: string, isPage: boolean) => {
     setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (isPage) {
+      navigate(href);
+    } else {
+      if (location !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      } else {
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   return (
@@ -32,20 +57,25 @@ export default function Nav() {
         scrolled ? "bg-[#0d0d0d]/90 backdrop-blur-md border-b border-white/10 py-3" : "bg-transparent py-5"
       }`}>
         <div className="container mx-auto px-6 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-white tracking-tight flex items-center gap-1">
-            Sinalytica<span className="text-primary">.</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <SinalyticLogo />
+            <span className="text-xl font-bold text-white tracking-tight">
+              Sinalytic<span className="text-primary">.</span>
+            </span>
           </Link>
 
-          {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
             {NAV_LINKS.map((l) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)} className="hover:text-white transition-colors">
+              <button
+                key={l.href}
+                onClick={() => handleNavClick(l.href, l.isPage)}
+                className="hover:text-white transition-colors"
+              >
                 {l.label}
               </button>
             ))}
           </div>
 
-          {/* Desktop CTAs */}
           <div className="hidden md:flex items-center gap-3">
             <a
               href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
@@ -54,14 +84,13 @@ export default function Nav() {
               <Download className="w-3.5 h-3.5" /> APK
             </a>
             <button
-              onClick={() => scrollTo("#demo")}
+              onClick={() => handleNavClick("#demo", false)}
               className="h-9 inline-flex items-center rounded-full bg-primary px-5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
             >
               Try Demo
             </button>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             className="md:hidden text-white p-2"
             onClick={() => setMenuOpen((o) => !o)}
@@ -72,7 +101,6 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -85,7 +113,7 @@ export default function Nav() {
             {NAV_LINKS.map((l) => (
               <button
                 key={l.href}
-                onClick={() => scrollTo(l.href)}
+                onClick={() => handleNavClick(l.href, l.isPage)}
                 className="text-left text-base font-medium text-gray-300 hover:text-white transition-colors py-1"
               >
                 {l.label}
@@ -99,7 +127,7 @@ export default function Nav() {
                 <Download className="w-4 h-4" /> Download APK (Android)
               </a>
               <button
-                onClick={() => scrollTo("#demo")}
+                onClick={() => handleNavClick("#demo", false)}
                 className="h-11 flex items-center justify-center rounded-full bg-primary text-sm font-semibold text-white"
               >
                 Try Demo

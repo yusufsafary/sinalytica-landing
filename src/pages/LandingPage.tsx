@@ -4,7 +4,7 @@ import { SiYoutube, SiTiktok, SiInstagram } from "react-icons/si";
 import {
   CheckCircle2, ChevronRight, FileText, Globe, Smartphone, Zap,
   ArrowDown, Clock, Languages, Star, Download, ShieldCheck, Wifi,
-  BookOpen, TrendingUp, Brain
+  BookOpen, TrendingUp, Brain, ArrowRight
 } from "lucide-react";
 import Nav from "@/components/Nav";
 import HeroDemo from "@/components/HeroDemo";
@@ -12,8 +12,8 @@ import LiveDemo from "@/components/LiveDemo";
 import PhoneMockup from "@/components/PhoneMockup";
 import WaitlistForm from "@/components/WaitlistForm";
 import Footer from "@/components/Footer";
+import ParticleBg from "@/components/ParticleBg";
 
-// Animated counter
 function Counter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -41,26 +41,9 @@ const PLATFORMS = [
   { icon: FileText, color: "text-blue-400", label: "Articles & Papers" },
 ];
 
-const STEPS = [
-  { step: "01", title: "Paste your link", desc: "Drop any URL from YouTube, TikTok, Instagram, or an article. Any language, any length.", icon: <Globe className="w-5 h-5" /> },
-  { step: "02", title: "AI extracts", desc: "Our engine cuts through hours of content to find every key insight, fact, and takeaway.", icon: <Zap className="w-5 h-5" /> },
-  { step: "03", title: "Own the knowledge", desc: "Get a crisp structured summary in seconds. Save offline, copy, or share with one tap.", icon: <BookOpen className="w-5 h-5" /> },
-];
-
-const FEATURES = [
-  { icon: <Clock className="w-5 h-5" />, title: "YouTube Timestamps", desc: "Full video breakdowns with clickable timestamps so you jump straight to the moments that matter." },
-  { icon: <SiTiktok className="w-5 h-5" />, title: "TikTok Decoded", desc: "Skip the hook, skip the filler. Extract the actual value from educational TikToks in one tap." },
-  { icon: <SiInstagram className="w-5 h-5" />, title: "Instagram Context", desc: "Combines caption intelligence with visual context for complete, actionable summaries." },
-  { icon: <Brain className="w-5 h-5" />, title: "Academic Precision", desc: "Extract the core thesis, methodology, and findings from dense papers and long-form blogs." },
-  { icon: <Languages className="w-5 h-5" />, title: "10+ Languages", desc: "Paste a video in Spanish, Arabic, or Japanese — read the summary in English. Fully multilingual." },
-  { icon: <Wifi className="w-5 h-5" />, title: "Works Offline", desc: "Save summaries to your Android device and read them anywhere — no internet required." },
-  { icon: <TrendingUp className="w-5 h-5" />, title: "Key Takeaways", desc: "Every summary ends with a single sharp insight — the one thing you need to remember." },
-  { icon: <ShieldCheck className="w-5 h-5" />, title: "No Account Needed", desc: "Paste and extract. No signup, no friction, no tracking. Knowledge with zero overhead." },
-];
-
 const TESTIMONIALS = [
   {
-    quote: "Sinalytica completely changed how I research. I paste 2-hour lecture videos and get the exact formulas and definitions in under 5 seconds.",
+    quote: "Sinalytic completely changed how I research. I paste 2-hour lecture videos and get the exact formulas and definitions in under 5 seconds.",
     author: "A.R.", role: "Engineering Student, Jakarta", initials: "AR", rating: 5
   },
   {
@@ -87,14 +70,17 @@ export default function LandingPage() {
 
       <main>
         {/* ─── HERO ─── */}
-        <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
-          {/* Background glow */}
+        <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden min-h-[90vh] flex items-center">
+          {/* Particle + glow background */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
-            <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-900/20 rounded-full blur-[100px]" />
+            <ParticleBg />
+            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[130px]" />
+            <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-900/15 rounded-full blur-[100px]" />
+            {/* Vignette overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/60 via-transparent to-[#0d0d0d]/80" />
           </div>
 
-          <div className="container mx-auto px-6 relative z-10">
+          <div className="container mx-auto px-6 relative z-10 w-full">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
               <motion.div
                 className="max-w-2xl"
@@ -104,7 +90,7 @@ export default function LandingPage() {
               >
                 <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white mb-7">
                   <span className="flex h-2 w-2 rounded-full bg-green-400 mr-2 shadow-[0_0_6px_2px_rgba(74,222,128,0.5)]" />
-                  Sinalytica v1.0 — Live now
+                  Sinalytic v1.0 — Live now
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6">
@@ -113,14 +99,14 @@ export default function LandingPage() {
                 </h1>
 
                 <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-lg leading-relaxed">
-                  Paste any YouTube, TikTok, Instagram, or article link. Sinalytica's AI extracts every key insight in seconds — no fluff, no filler.
+                  Paste any YouTube, TikTok, Instagram, or article link. Sinalytic's AI extracts every key insight in seconds — no fluff, no filler.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3 mb-10">
                   <a
                     href="#demo"
                     onClick={(e) => { e.preventDefault(); document.querySelector("#demo")?.scrollIntoView({ behavior: "smooth" }); }}
-                    className="h-12 px-7 rounded-full bg-primary text-white font-bold hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 text-sm"
+                    className="h-12 px-7 rounded-full bg-primary text-white font-bold hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 text-sm shadow-lg shadow-primary/25"
                   >
                     Try the Demo <ChevronRight className="w-4 h-4" />
                   </a>
@@ -214,72 +200,28 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ─── HOW IT WORKS ─── */}
-        <section className="py-24 bg-[#0d0d0d] relative" id="how-it-works">
+        {/* ─── HOW IT WORKS CTA ─── */}
+        <section className="py-20 bg-[#0d0d0d] relative" id="how-it-works">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(37,99,235,0.05)_0%,_transparent_70%)] pointer-events-none" />
-          <div className="container mx-auto px-6 relative z-10">
-            <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="container mx-auto px-6 relative z-10 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
               <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">How it works</p>
               <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Three steps to clarity.</h2>
-              <p className="text-gray-400 text-lg">Stop wasting hours scrubbing through videos. Get to the point instantly.</p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 relative">
-              {/* Connector lines */}
-              <div className="hidden md:block absolute top-1/4 left-1/3 right-1/3 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-
-              {STEPS.map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.15 }}
-                  className="relative p-8 rounded-2xl border border-white/8 bg-white/3 backdrop-blur-sm hover:border-primary/30 transition-colors group"
-                >
-                  <div className="text-8xl font-black text-white/4 absolute top-3 right-5 pointer-events-none select-none leading-none">
-                    {item.step}
-                  </div>
-                  <div className="w-11 h-11 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-6 group-hover:bg-primary/25 transition-colors">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                  <p className="text-gray-400 leading-relaxed text-sm">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── FEATURES ─── */}
-        <section className="py-24 bg-[#f7f6f3]" id="features">
-          <div className="container mx-auto px-6">
-            <div className="mb-16 max-w-xl">
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Features</p>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-[#0d0d0d] mb-4">Built for serious thinkers.</h2>
-              <p className="text-gray-500 text-lg leading-relaxed">
-                Every feature is designed to reduce the friction between you and the knowledge you need.
+              <p className="text-gray-400 text-lg mb-8 max-w-xl mx-auto">
+                Stop wasting hours scrubbing through videos. Get to the point instantly.
               </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {FEATURES.map((f, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.07 }}
-                  className="p-6 bg-white border border-[#0d0d0d]/8 rounded-2xl hover:border-primary/30 hover:shadow-md transition-all group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-primary/8 text-primary flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-all">
-                    {f.icon}
-                  </div>
-                  <h3 className="text-base font-bold text-[#0d0d0d] mb-2">{f.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
-                </motion.div>
-              ))}
-            </div>
+              <a
+                href="/how-it-works"
+                className="h-12 px-8 rounded-full border border-primary/40 bg-primary/10 text-primary font-semibold hover:bg-primary/20 active:scale-95 transition-all inline-flex items-center gap-2 text-sm"
+              >
+                See how it works <ArrowRight className="w-4 h-4" />
+              </a>
+            </motion.div>
           </div>
         </section>
 
@@ -342,17 +284,15 @@ export default function LandingPage() {
 
           <div className="container mx-auto px-6 relative z-10">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              {/* Left: copy */}
               <div>
                 <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Android App</p>
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-6 leading-tight">
                   Take your knowledge<br />tool offline.
                 </h2>
                 <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                  Download the Sinalytica Android APK for a fully functional offline experience. Browse your saved summaries on the plane, in the subway, anywhere.
+                  Download the Sinalytic Android APK for a fully functional offline experience. Browse your saved summaries on the plane, in the subway, anywhere.
                 </p>
 
-                {/* Feature pills */}
                 <div className="flex flex-wrap gap-3 mb-10">
                   {APK_FEATURES.map((f) => (
                     <div key={f.label} className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-white font-medium">
@@ -362,7 +302,6 @@ export default function LandingPage() {
                   ))}
                 </div>
 
-                {/* Download button */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
                     href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
@@ -383,7 +322,6 @@ export default function LandingPage() {
                 <p className="mt-4 text-xs text-gray-600">Free download · Android 8.0+ · No Google Play required</p>
               </div>
 
-              {/* Right: phone mockup */}
               <div className="flex justify-center">
                 <PhoneMockup />
               </div>

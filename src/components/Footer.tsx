@@ -4,7 +4,7 @@ import { Globe } from "lucide-react";
 
 const LINKS = {
   Product: [
-    { label: "How it works", href: "#how-it-works" },
+    { label: "How it works", href: "/how-it-works" },
     { label: "Features", href: "#features" },
     { label: "Live Demo", href: "#demo" },
     { label: "Download APK", href: "#download" },
@@ -28,10 +28,9 @@ export default function Footer() {
     <footer className="bg-[#080808] text-gray-500 border-t border-white/5">
       <div className="container mx-auto px-6 pt-16 pb-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="text-2xl font-bold text-white tracking-tight mb-2">
-              Sinalytica<span className="text-primary">.</span>
+              Sinalytic<span className="text-primary">.</span>
             </div>
             <p className="text-sm leading-relaxed mb-4">
               Knowledge from anything, anywhere.<br />Read less. Know smarter.
@@ -49,7 +48,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
           {Object.entries(LINKS).map(([group, links]) => (
             <div key={group}>
               <h4 className="text-white font-semibold text-sm mb-4">{group}</h4>
@@ -67,7 +65,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-600">
-          <p>&copy; {new Date().getFullYear()} Sinalytica. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Sinalytic. All rights reserved.</p>
           <p className="flex items-center gap-1">
             Live at{" "}
             <a href="https://sinalytic.life" className="text-primary hover:underline ml-1">

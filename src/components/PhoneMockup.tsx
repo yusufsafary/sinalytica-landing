@@ -9,20 +9,17 @@ const SCREENS = [
     label: "Home Feed",
     content: (
       <div className="flex flex-col h-full bg-[#0a0a0a]">
-        {/* App header */}
         <div className="px-4 pt-4 pb-3 flex items-center justify-between">
-          <span className="text-white font-bold text-base">Sinalytica</span>
+          <span className="text-white font-bold text-base">Sinalytic</span>
           <div className="flex gap-3">
             <Bell className="w-4 h-4 text-gray-400" />
             <Settings className="w-4 h-4 text-gray-400" />
           </div>
         </div>
-        {/* Search bar */}
         <div className="mx-4 mb-3 bg-white/8 rounded-xl px-3 py-2 flex items-center gap-2">
           <Search className="w-3.5 h-3.5 text-gray-500" />
           <span className="text-gray-500 text-xs">Paste any link…</span>
         </div>
-        {/* Cards */}
         <div className="flex-1 overflow-hidden px-4 space-y-2.5">
           {[
             { icon: SiYoutube, color: "bg-red-600", type: "YouTube", title: "Why Sleep Matters More Than Diet", time: "2h saved", stars: "4.9" },
@@ -55,7 +52,6 @@ const SCREENS = [
             );
           })}
         </div>
-        {/* Bottom nav */}
         <div className="flex items-center justify-around py-3 border-t border-white/5 mt-2">
           {[
             { icon: "🏠", label: "Home", active: true },
@@ -194,7 +190,6 @@ export default function PhoneMockup() {
 
   return (
     <div className="flex flex-col items-center gap-6">
-      {/* Screen selector */}
       <div className="flex gap-2">
         {SCREENS.map((s, i) => (
           <button
@@ -209,14 +204,9 @@ export default function PhoneMockup() {
         ))}
       </div>
 
-      {/* Phone frame */}
       <div className="relative">
-        {/* Glow */}
         <div className="absolute inset-0 blur-3xl bg-primary/20 scale-75 rounded-full" />
-        
-        {/* Phone body */}
         <div className="relative w-[220px] h-[440px] bg-[#1a1a1a] rounded-[40px] border-2 border-white/10 shadow-2xl overflow-hidden">
-          {/* Status bar */}
           <div className="absolute top-0 inset-x-0 h-8 bg-[#0a0a0a] flex items-center justify-between px-5 z-10">
             <span className="text-[9px] text-white font-medium">9:41</span>
             <div className="w-16 h-4 bg-[#1a1a1a] rounded-full absolute left-1/2 -translate-x-1/2 top-1" />
@@ -227,7 +217,6 @@ export default function PhoneMockup() {
             </div>
           </div>
 
-          {/* Screen content */}
           <div className="absolute inset-0 pt-8">
             <AnimatePresence mode="wait">
               <motion.div
@@ -243,11 +232,9 @@ export default function PhoneMockup() {
             </AnimatePresence>
           </div>
 
-          {/* Bottom home indicator */}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-white/20 rounded-full" />
         </div>
 
-        {/* Side buttons */}
         <div className="absolute -right-1 top-24 w-1 h-8 bg-white/10 rounded-full" />
         <div className="absolute -left-1 top-20 w-1 h-6 bg-white/10 rounded-full" />
         <div className="absolute -left-1 top-28 w-1 h-6 bg-white/10 rounded-full" />
