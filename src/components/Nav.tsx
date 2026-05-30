@@ -85,9 +85,10 @@ export default function Nav() {
               <button
                 key={l.href}
                 onClick={() => handleNavClick(l.href, l.isPage)}
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors relative group"
               >
                 {l.label}
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
           </div>
@@ -102,7 +103,7 @@ export default function Nav() {
             </a>
             <button
               onClick={() => handleNavClick("#demo", false)}
-              className="h-9 inline-flex items-center rounded-full bg-primary px-5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
+              className="h-9 inline-flex items-center rounded-full bg-primary px-5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
             >
               Try Demo
             </button>
@@ -125,7 +126,7 @@ export default function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-[57px] z-40 bg-[#0d0d0d]/95 backdrop-blur-md border-b border-white/10 px-6 py-6 flex flex-col gap-4 md:hidden"
+            className="fixed inset-x-0 top-[57px] z-40 bg-[#0d0d0d]/97 backdrop-blur-md border-b border-white/10 px-6 py-6 flex flex-col gap-4 md:hidden"
           >
             {NAV_LINKS.map((l) => (
               <button
@@ -146,7 +147,7 @@ export default function Nav() {
               </a>
               <button
                 onClick={() => handleNavClick("#demo", false)}
-                className="h-11 flex items-center justify-center rounded-full bg-primary text-sm font-semibold text-white"
+                className="h-11 flex items-center justify-center rounded-full bg-primary text-sm font-semibold text-white shadow-lg shadow-primary/20"
               >
                 Try Demo
               </button>

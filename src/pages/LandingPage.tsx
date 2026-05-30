@@ -35,10 +35,10 @@ function Counter({ target, suffix = "", duration = 2000 }: { target: number; suf
 }
 
 const PLATFORMS = [
-  { icon: SiYoutube, color: "text-red-500", label: "YouTube" },
-  { icon: SiTiktok, color: "text-white", label: "TikTok" },
-  { icon: SiInstagram, color: "text-pink-500", label: "Instagram" },
-  { icon: FileText, color: "text-blue-400", label: "Articles and Papers" },
+  { icon: SiYoutube, color: "text-red-500", bg: "bg-red-500/10 border-red-500/20", label: "YouTube" },
+  { icon: SiTiktok, color: "text-sky-400", bg: "bg-sky-400/10 border-sky-400/20", label: "TikTok" },
+  { icon: SiInstagram, color: "text-pink-400", bg: "bg-pink-400/10 border-pink-400/20", label: "Instagram" },
+  { icon: FileText, color: "text-blue-400", bg: "bg-blue-400/10 border-blue-400/20", label: "Articles & Papers" },
 ];
 
 const APK_FEATURES = [
@@ -57,12 +57,12 @@ function SocialStrip() {
       transition={{ delay: 0.5 }}
       className="flex flex-wrap items-center gap-3 pt-2"
     >
-      <span className="text-xs text-gray-600 font-medium">{t.followUs}</span>
+      <span className="text-xs text-gray-500 font-medium">{t.followUs}</span>
       <a
         href="https://x.com/Sinalyticalife"
         target="_blank"
         rel="noreferrer"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-xs text-gray-300 hover:text-white"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white"
       >
         <SiX className="w-3 h-3" />
         @Sinalyticalife
@@ -71,7 +71,7 @@ function SocialStrip() {
         href="https://x.com/oroimho"
         target="_blank"
         rel="noreferrer"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-xs text-gray-300 hover:text-white"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white"
       >
         <SiX className="w-3 h-3" />
         @oroimho
@@ -91,10 +91,8 @@ export default function LandingPage() {
       <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
 
       <main>
-        {/* HERO */}
+        {/* ─── HERO ─── */}
         <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden min-h-[95vh] flex items-center">
-
-          {/* Video background — Mixkit CDN allows hotlinking, relevant to content consumption */}
           <div className="absolute inset-0 overflow-hidden bg-[#080c18]">
             <video
               autoPlay
@@ -103,43 +101,33 @@ export default function LandingPage() {
               playsInline
               crossOrigin="anonymous"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ opacity: 0.5 }}
+              style={{ opacity: 0.45 }}
             >
-              {/* Person typing / reading on laptop — relevant to knowledge consumption */}
-              <source
-                src="https://assets.mixkit.co/videos/preview/mixkit-person-typing-on-laptop-while-sitting-4691-large.mp4"
-                type="video/mp4"
-              />
-              {/* Fallback: woman reading on phone in cafe */}
-              <source
-                src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-reading-messages-in-a-phone-40011-large.mp4"
-                type="video/mp4"
-              />
-              {/* Fallback: close up of typing */}
-              <source
-                src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-person-typing-on-computer-keyboard-4585-large.mp4"
-                type="video/mp4"
-              />
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-person-typing-on-laptop-while-sitting-4691-large.mp4" type="video/mp4" />
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-reading-messages-in-a-phone-40011-large.mp4" type="video/mp4" />
             </video>
-
-            {/* Overlays: keep text readable while showing enough video */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0d0d0d]/90 via-[#0d0d0d]/55 to-[#0d0d0d]/20" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/60 via-transparent to-[#0d0d0d]/80" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(37,99,235,0.15)_0%,_transparent_55%)]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0d0d0d]/95 via-[#0d0d0d]/60 to-[#0d0d0d]/25" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/60 via-transparent to-[#0d0d0d]/85" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(37,99,235,0.18)_0%,_transparent_55%)]" />
           </div>
 
           <div className="container mx-auto px-6 relative z-10 w-full">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
               <motion.div
                 className="max-w-2xl"
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white mb-7">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1, duration: 0.4 }}
+                  className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white mb-7 backdrop-blur-sm"
+                >
                   <span className="flex h-2 w-2 rounded-full bg-green-400 mr-2 shadow-[0_0_6px_2px_rgba(74,222,128,0.5)]" />
                   {t.badge}
-                </div>
+                </motion.div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6">
                   {t.h1Line1}<br />
@@ -153,19 +141,18 @@ export default function LandingPage() {
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   <button
                     onClick={() => setDemoOpen(true)}
-                    className="h-12 px-7 rounded-full bg-primary text-white font-bold hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 text-sm shadow-lg shadow-primary/25"
+                    className="h-12 px-7 rounded-full bg-primary text-white font-bold hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 text-sm shadow-lg shadow-primary/30"
                   >
                     <Play className="w-4 h-4 fill-white" /> {t.cta1}
                   </button>
                   <a
                     href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
-                    className="h-12 px-7 rounded-full border border-white/20 bg-white/8 text-white font-semibold hover:bg-white/15 active:scale-95 transition-all inline-flex items-center gap-2 text-sm"
+                    className="h-12 px-7 rounded-full border border-white/20 bg-white/5 text-white font-semibold hover:bg-white/10 active:scale-95 transition-all inline-flex items-center gap-2 text-sm backdrop-blur-sm"
                   >
                     <Download className="w-4 h-4" /> {t.cta2}
                   </a>
                 </div>
 
-                {/* Social strip — just below the buttons */}
                 <SocialStrip />
 
                 <div className="flex flex-wrap items-center gap-5 text-sm text-gray-400 mt-8">
@@ -180,9 +167,9 @@ export default function LandingPage() {
 
               <motion.div
                 className="lg:ml-auto w-full max-w-md"
-                initial={{ opacity: 0, x: 24 }}
+                initial={{ opacity: 0, x: 28 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
+                transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               >
                 <HeroDemo />
               </motion.div>
@@ -196,10 +183,10 @@ export default function LandingPage() {
             >
               <button
                 onClick={() => document.querySelector("#stats")?.scrollIntoView({ behavior: "smooth" })}
-                className="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 transition-colors"
+                className="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 transition-colors group"
               >
                 <span className="text-xs">{t.scrollExplore}</span>
-                <motion.div animate={{ y: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+                <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.6 }}>
                   <ArrowDown className="w-4 h-4" />
                 </motion.div>
               </button>
@@ -207,8 +194,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* STATS */}
-        <section id="stats" className="py-14 border-y border-white/5 bg-white/[0.02]">
+        {/* ─── STATS ─── */}
+        <section id="stats" className="py-16 border-y border-white/5 bg-white/[0.02]">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {[
@@ -219,10 +206,10 @@ export default function LandingPage() {
               ].map((stat, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
                   className="flex flex-col items-center"
                 >
                   <div className="text-4xl md:text-5xl font-black text-white mb-1">
@@ -235,36 +222,49 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* PLATFORMS */}
-        <section className="py-12 bg-[#f7f6f3]">
+        {/* ─── PLATFORMS ─── */}
+        <section className="py-14 bg-[#0d0d0d]">
           <div className="container mx-auto px-6">
-            <p className="text-center text-xs font-bold text-gray-400 mb-8 uppercase tracking-widest">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-center text-xs font-bold text-gray-600 mb-10 uppercase tracking-widest"
+            >
               Extract knowledge from
-            </p>
-            <div className="flex flex-wrap justify-center gap-10 md:gap-16">
-              {PLATFORMS.map(({ icon: Icon, color, label }) => (
-                <div key={label} className="flex items-center gap-2.5 text-base font-semibold text-[#1a1a1a]">
-                  <Icon className={`w-6 h-6 ${color}`} />
+            </motion.p>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+              {PLATFORMS.map(({ icon: Icon, color, bg, label }, i) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className={`flex items-center gap-2.5 px-5 py-3 rounded-full border ${bg} text-white font-semibold text-sm`}
+                >
+                  <Icon className={`w-5 h-5 ${color}`} />
                   {label}
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* HOW IT WORKS CTA */}
+        {/* ─── HOW IT WORKS CTA ─── */}
         <section className="py-20 bg-[#0d0d0d] relative" id="how-it-works">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(37,99,235,0.05)_0%,_transparent_70%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(37,99,235,0.06)_0%,_transparent_70%)] pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
           <div className="container mx-auto px-6 relative z-10 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.55 }}
             >
               <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">How it works</p>
               <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Three steps to clarity.</h2>
-              <p className="text-gray-400 text-lg mb-8 max-w-xl mx-auto">
+              <p className="text-gray-400 text-lg mb-8 max-w-xl mx-auto leading-relaxed">
                 Stop wasting hours scrubbing through videos. Get to the point instantly.
               </p>
               <a
@@ -277,28 +277,49 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* LIVE DEMO */}
+        {/* ─── LIVE DEMO ─── */}
         <section className="py-24 bg-[#0d0d0d]" id="demo">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
           <div className="container mx-auto px-6">
             <div className="text-center mb-14">
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Interactive Demo</p>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">See it in action.</h2>
-              <p className="text-gray-400 text-lg">Pick a platform and hit Extract. Watch AI compress hours into seconds.</p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Interactive Demo</p>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">See it in action.</h2>
+                <p className="text-gray-400 text-lg">Pick a platform and hit Extract. Watch AI compress hours into seconds.</p>
+              </motion.div>
             </div>
-            <LiveDemo />
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.1 }}
+            >
+              <LiveDemo />
+            </motion.div>
           </div>
         </section>
 
-        {/* APK DOWNLOAD */}
+        {/* ─── APK DOWNLOAD ─── */}
         <section className="py-24 bg-[#0d0d0d] relative overflow-hidden" id="download">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_rgba(37,99,235,0.12)_0%,_transparent_60%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_rgba(37,99,235,0.08)_0%,_transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_rgba(37,99,235,0.10)_0%,_transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_rgba(37,99,235,0.07)_0%,_transparent_60%)]" />
           </div>
 
           <div className="container mx-auto px-6 relative z-10">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
+              <motion.div
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
                 <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Android App</p>
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-6 leading-tight">
                   Take your knowledge<br />tool offline.
@@ -309,7 +330,7 @@ export default function LandingPage() {
 
                 <div className="flex flex-wrap gap-3 mb-10">
                   {APK_FEATURES.map((f) => (
-                    <div key={f.label} className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-white font-medium">
+                    <div key={f.label} className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-white font-medium hover:bg-white/8 transition-colors">
                       <span className="text-primary">{f.icon}</span>
                       {f.label}
                     </div>
@@ -326,45 +347,75 @@ export default function LandingPage() {
                   </a>
                 </div>
                 <p className="mt-4 text-xs text-gray-600">Free download · Android 8.0+ · No Google Play required</p>
-              </div>
+              </motion.div>
 
-              <div className="flex justify-center">
+              <motion.div
+                className="flex justify-center"
+                initial={{ opacity: 0, x: 24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 <PhoneMockup />
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* WAITLIST */}
-        <section className="py-24 bg-[#f7f6f3]" id="waitlist">
-          <div className="container mx-auto px-6">
-            <div className="max-w-2xl mx-auto text-center">
+        {/* ─── WAITLIST ─── */}
+        <section className="py-24 bg-[#080808] relative" id="waitlist">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(37,99,235,0.07)_0%,_transparent_65%)] pointer-events-none" />
+          <div className="container mx-auto px-6 relative z-10">
+            <motion.div
+              className="max-w-2xl mx-auto text-center"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55 }}
+            >
               <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Early Access</p>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-[#0d0d0d] mb-4">
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-4">
                 Be first when we launch.
               </h2>
-              <p className="text-gray-500 text-lg mb-10 leading-relaxed">
+              <p className="text-gray-400 text-lg mb-10 leading-relaxed">
                 Join 1,240+ people on the waitlist. Get early access, lifetime discount, and direct input into what we build next.
               </p>
               <WaitlistForm />
-            </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* FINAL CTA */}
+        {/* ─── FINAL CTA ─── */}
         <section className="py-32 bg-[#0d0d0d] relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(37,99,235,0.12)_0%,_transparent_70%)] pointer-events-none" />
           <div className="container mx-auto px-6 text-center relative z-10">
             <motion.h2
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
               className="text-5xl md:text-7xl font-black tracking-tight text-white mb-6 leading-tight"
             >
               Start reading smarter.
             </motion.h2>
-            <p className="text-gray-400 text-xl mb-10">No account. No credit card. Just paste a link.</p>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 }}
+              className="text-gray-400 text-xl mb-10"
+            >
+              No account. No credit card. Just paste a link.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.25 }}
+              className="flex flex-wrap justify-center gap-4 mb-8"
+            >
               <button
                 onClick={() => setDemoOpen(true)}
                 className="h-14 px-10 rounded-full bg-primary text-white font-bold text-lg hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 shadow-lg shadow-primary/30"
@@ -377,8 +428,14 @@ export default function LandingPage() {
               >
                 <Download className="w-5 h-5" /> Try Demo with APK
               </a>
-            </div>
-            <div className="flex justify-center items-center gap-4 flex-wrap">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35 }}
+              className="flex justify-center items-center gap-4 flex-wrap"
+            >
               <span className="text-gray-600 text-sm">Follow us on X</span>
               <a href="https://x.com/Sinalyticalife" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
                 <SiX className="w-3.5 h-3.5" /> @Sinalyticalife
@@ -387,7 +444,7 @@ export default function LandingPage() {
               <a href="https://x.com/oroimho" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
                 <SiX className="w-3.5 h-3.5" /> @oroimho
               </a>
-            </div>
+            </motion.div>
           </div>
         </section>
       </main>
