@@ -1,25 +1,25 @@
 import React from "react";
-import { SiGithub, SiX } from "react-icons/si";
-import { Globe } from "lucide-react";
+import { SiX } from "react-icons/si";
+import { Globe, Mail } from "lucide-react";
 
 const LINKS = {
   Product: [
     { label: "How it works", href: "/how-it-works" },
-    { label: "Features", href: "#features" },
-    { label: "Live Demo", href: "#demo" },
-    { label: "Download APK", href: "#download" },
+    { label: "Features", href: "/how-it-works#features" },
+    { label: "Live Demo", href: "/#demo" },
+    { label: "Download APK", href: "/#download" },
   ],
   Company: [
-    { label: "About", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Use", href: "#" },
+    { label: "About", href: "/about" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Use", href: "/terms" },
     { label: "Contact", href: "mailto:hello@sinalytic.life" },
   ],
-  Developer: [
-    { label: "GitHub Repo", href: "https://github.com/yusufsafary/sinalytica-landing" },
-    { label: "API Docs", href: "#" },
-    { label: "Releases", href: "https://github.com/yusufsafary/sinalytica-landing/releases" },
-    { label: "Changelog", href: "#" },
+  Community: [
+    { label: "@Sinalyticalife", href: "https://x.com/Sinalyticalife", ext: true },
+    { label: "@oroimho (Founder)", href: "https://x.com/oroimho", ext: true },
+    { label: "Join Waitlist", href: "/#waitlist", ext: false },
+    { label: "APK Releases", href: "https://github.com/yusufsafary/sinalytica-landing/releases", ext: true },
   ],
 };
 
@@ -32,19 +32,50 @@ export default function Footer() {
             <div className="text-2xl font-bold text-white tracking-tight mb-2">
               Sinalytic<span className="text-primary">.</span>
             </div>
-            <p className="text-sm leading-relaxed mb-4">
+            <p className="text-sm leading-relaxed mb-5">
               Knowledge from anything, anywhere.<br />Read less. Know smarter.
             </p>
-            <div className="flex items-center gap-3">
-              <a href="https://github.com/yusufsafary/sinalytica-landing" target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <SiGithub className="w-4 h-4 text-white" />
+            <div className="flex items-center gap-3 mb-4">
+              <a
+                href="https://x.com/Sinalyticalife"
+                target="_blank"
+                rel="noreferrer"
+                title="@Sinalyticalife"
+                className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/15 transition-colors group"
+              >
+                <SiX className="w-3.5 h-3.5 text-gray-400 group-hover:text-white transition-colors" />
               </a>
-              <a href="https://sinalytic.life" target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Globe className="w-4 h-4 text-white" />
+              <a
+                href="https://sinalytic.life"
+                target="_blank"
+                rel="noreferrer"
+                title="sinalytic.life"
+                className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/15 transition-colors group"
+              >
+                <Globe className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <SiX className="w-3.5 h-3.5 text-white" />
+              <a
+                href="mailto:hello@sinalytic.life"
+                title="Email us"
+                className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/15 transition-colors group"
+              >
+                <Mail className="w-3.5 h-3.5 text-gray-400 group-hover:text-white transition-colors" />
               </a>
+            </div>
+
+            <div className="text-xs text-gray-600 space-y-1">
+              <div className="flex items-center gap-2">
+                <SiX className="w-3 h-3 shrink-0" />
+                <a href="https://x.com/Sinalyticalife" target="_blank" rel="noreferrer" className="hover:text-gray-400 transition-colors">
+                  @Sinalyticalife
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <SiX className="w-3 h-3 shrink-0" />
+                <a href="https://x.com/oroimho" target="_blank" rel="noreferrer" className="hover:text-gray-400 transition-colors">
+                  @oroimho <span className="text-gray-700">(Founder)</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -54,7 +85,12 @@ export default function Footer() {
               <ul className="space-y-2">
                 {links.map((l) => (
                   <li key={l.label}>
-                    <a href={l.href} className="text-sm hover:text-white transition-colors">
+                    <a
+                      href={l.href}
+                      target={"ext" in l && l.ext ? "_blank" : undefined}
+                      rel={"ext" in l && l.ext ? "noreferrer" : undefined}
+                      className="text-sm hover:text-white transition-colors"
+                    >
                       {l.label}
                     </a>
                   </li>

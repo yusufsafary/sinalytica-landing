@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { SiYoutube, SiTiktok, SiInstagram } from "react-icons/si";
+import { SiYoutube, SiTiktok, SiInstagram, SiX } from "react-icons/si";
 import {
-  CheckCircle2, ChevronRight, FileText, Smartphone,
+  CheckCircle2, FileText, Smartphone,
   ArrowDown, Download, ShieldCheck, Wifi, Play, ArrowRight
 } from "lucide-react";
 import Nav from "@/components/Nav";
@@ -12,6 +12,7 @@ import PhoneMockup from "@/components/PhoneMockup";
 import WaitlistForm from "@/components/WaitlistForm";
 import Footer from "@/components/Footer";
 import DemoModal from "@/components/DemoModal";
+import { useLang } from "@/context/LanguageContext";
 
 function Counter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
@@ -47,8 +48,42 @@ const APK_FEATURES = [
   { icon: <Smartphone className="w-4 h-4" />, label: "Android 8.0+" },
 ];
 
+function SocialStrip() {
+  const { t } = useLang();
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5 }}
+      className="flex flex-wrap items-center gap-3 pt-2"
+    >
+      <span className="text-xs text-gray-600 font-medium">{t.followUs}</span>
+      <a
+        href="https://x.com/Sinalyticalife"
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-xs text-gray-300 hover:text-white"
+      >
+        <SiX className="w-3 h-3" />
+        @Sinalyticalife
+      </a>
+      <a
+        href="https://x.com/oroimho"
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-xs text-gray-300 hover:text-white"
+      >
+        <SiX className="w-3 h-3" />
+        @oroimho
+        <span className="text-gray-600 text-[10px]">{t.founderLabel}</span>
+      </a>
+    </motion.div>
+  );
+}
+
 export default function LandingPage() {
   const [demoOpen, setDemoOpen] = useState(false);
+  const { t } = useLang();
 
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white selection:bg-primary/30">
@@ -59,38 +94,38 @@ export default function LandingPage() {
         {/* HERO */}
         <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden min-h-[95vh] flex items-center">
 
-          {/* Real video background */}
-          <div className="absolute inset-0 overflow-hidden bg-[#0a0a14]">
+          {/* Video background — Mixkit CDN allows hotlinking, relevant to content consumption */}
+          <div className="absolute inset-0 overflow-hidden bg-[#080c18]">
             <video
               autoPlay
               muted
               loop
               playsInline
+              crossOrigin="anonymous"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ opacity: 0.45 }}
-              poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E"
+              style={{ opacity: 0.5 }}
             >
-              {/* Person using phone/scrolling content - highly relevant to app */}
+              {/* Person typing / reading on laptop — relevant to knowledge consumption */}
               <source
-                src="https://videos.pexels.com/video-files/7310067/7310067-hd_1920_1080_30fps.mp4"
+                src="https://assets.mixkit.co/videos/preview/mixkit-person-typing-on-laptop-while-sitting-4691-large.mp4"
                 type="video/mp4"
               />
-              {/* Fallback: person on laptop reading */}
+              {/* Fallback: woman reading on phone in cafe */}
               <source
-                src="https://videos.pexels.com/video-files/4065403/4065403-hd_1920_1080_30fps.mp4"
+                src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-reading-messages-in-a-phone-40011-large.mp4"
                 type="video/mp4"
               />
-              {/* Second fallback: tech/data */}
+              {/* Fallback: close up of typing */}
               <source
-                src="https://videos.pexels.com/video-files/3256576/3256576-hd_1920_1080_24fps.mp4"
+                src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-person-typing-on-computer-keyboard-4585-large.mp4"
                 type="video/mp4"
               />
             </video>
 
-            {/* Gradient overlay: top + bottom fade, left glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0d0d0d]/85 via-[#0d0d0d]/50 to-[#0d0d0d]/20" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/70 via-transparent to-[#0d0d0d]/80" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(37,99,235,0.12)_0%,_transparent_55%)]" />
+            {/* Overlays: keep text readable while showing enough video */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0d0d0d]/90 via-[#0d0d0d]/55 to-[#0d0d0d]/20" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/60 via-transparent to-[#0d0d0d]/80" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(37,99,235,0.15)_0%,_transparent_55%)]" />
           </div>
 
           <div className="container mx-auto px-6 relative z-10 w-full">
@@ -103,35 +138,38 @@ export default function LandingPage() {
               >
                 <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white mb-7">
                   <span className="flex h-2 w-2 rounded-full bg-green-400 mr-2 shadow-[0_0_6px_2px_rgba(74,222,128,0.5)]" />
-                  Sinalytic v1.0 · Live now
+                  {t.badge}
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6">
-                  Read less.<br />
-                  <span className="text-primary">Know smarter.</span>
+                  {t.h1Line1}<br />
+                  <span className="text-primary">{t.h1Line2}</span>
                 </h1>
 
                 <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-lg leading-relaxed">
-                  Paste any YouTube, TikTok, Instagram, or article link. Sinalytic AI extracts every key insight in seconds. No fluff, no filler.
+                  {t.desc}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-3 mb-10">
+                <div className="flex flex-wrap items-center gap-3 mb-4">
                   <button
                     onClick={() => setDemoOpen(true)}
                     className="h-12 px-7 rounded-full bg-primary text-white font-bold hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 text-sm shadow-lg shadow-primary/25"
                   >
-                    <Play className="w-4 h-4 fill-white" /> Watch Demo in Browser
+                    <Play className="w-4 h-4 fill-white" /> {t.cta1}
                   </button>
                   <a
                     href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
                     className="h-12 px-7 rounded-full border border-white/20 bg-white/8 text-white font-semibold hover:bg-white/15 active:scale-95 transition-all inline-flex items-center gap-2 text-sm"
                   >
-                    <Download className="w-4 h-4" /> Try Demo with APK
+                    <Download className="w-4 h-4" /> {t.cta2}
                   </a>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-5 text-sm text-gray-400">
-                  {["4 Platforms", "Under 5s per summary", "10+ Languages", "Free forever"].map((label) => (
+                {/* Social strip — just below the buttons */}
+                <SocialStrip />
+
+                <div className="flex flex-wrap items-center gap-5 text-sm text-gray-400 mt-8">
+                  {t.features.map((label) => (
                     <div key={label} className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                       {label}
@@ -160,7 +198,7 @@ export default function LandingPage() {
                 onClick={() => document.querySelector("#stats")?.scrollIntoView({ behavior: "smooth" })}
                 className="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 transition-colors"
               >
-                <span className="text-xs">Scroll to explore</span>
+                <span className="text-xs">{t.scrollExplore}</span>
                 <motion.div animate={{ y: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
                   <ArrowDown className="w-4 h-4" />
                 </motion.div>
@@ -286,14 +324,6 @@ export default function LandingPage() {
                     <Download className="w-5 h-5" />
                     Download APK v1.0 Demo
                   </a>
-                  <a
-                    href="https://github.com/yusufsafary/sinalytica-landing"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="h-14 px-7 rounded-full border border-white/15 bg-white/5 text-white font-semibold hover:bg-white/10 transition-colors inline-flex items-center gap-2 justify-center text-sm"
-                  >
-                    View Source on GitHub
-                  </a>
                 </div>
                 <p className="mt-4 text-xs text-gray-600">Free download · Android 8.0+ · No Google Play required</p>
               </div>
@@ -306,7 +336,7 @@ export default function LandingPage() {
         </section>
 
         {/* WAITLIST */}
-        <section className="py-24 bg-[#f7f6f3]">
+        <section className="py-24 bg-[#f7f6f3]" id="waitlist">
           <div className="container mx-auto px-6">
             <div className="max-w-2xl mx-auto text-center">
               <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Early Access</p>
@@ -334,7 +364,7 @@ export default function LandingPage() {
               Start reading smarter.
             </motion.h2>
             <p className="text-gray-400 text-xl mb-10">No account. No credit card. Just paste a link.</p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
               <button
                 onClick={() => setDemoOpen(true)}
                 className="h-14 px-10 rounded-full bg-primary text-white font-bold text-lg hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 shadow-lg shadow-primary/30"
@@ -346,6 +376,16 @@ export default function LandingPage() {
                 className="h-14 px-10 rounded-full border border-white/15 bg-white/5 text-white font-bold text-lg hover:bg-white/10 transition-colors inline-flex items-center gap-2"
               >
                 <Download className="w-5 h-5" /> Try Demo with APK
+              </a>
+            </div>
+            <div className="flex justify-center items-center gap-4 flex-wrap">
+              <span className="text-gray-600 text-sm">Follow us on X</span>
+              <a href="https://x.com/Sinalyticalife" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
+                <SiX className="w-3.5 h-3.5" /> @Sinalyticalife
+              </a>
+              <span className="text-gray-700 text-xs">·</span>
+              <a href="https://x.com/oroimho" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
+                <SiX className="w-3.5 h-3.5" /> @oroimho
               </a>
             </div>
           </div>

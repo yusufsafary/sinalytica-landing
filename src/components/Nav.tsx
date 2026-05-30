@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Download } from "lucide-react";
+import { useLang } from "@/context/LanguageContext";
 
 const NAV_LINKS = [
   { href: "/how-it-works", label: "How it works", isPage: true },
@@ -21,6 +22,21 @@ function SinalyticLogo() {
       <circle cx="22" cy="19" r="2" fill="#60a5fa"/>
       <path d="M20 19 L17 19" stroke="#60a5fa" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
+  );
+}
+
+function LangToggle() {
+  const { lang, setLang } = useLang();
+  return (
+    <button
+      onClick={() => setLang(lang === "en" ? "ja" : "en")}
+      className="h-8 px-3 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 transition-colors text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1.5"
+      title="Switch language"
+    >
+      <span className={lang === "en" ? "text-white" : "text-gray-500"}>EN</span>
+      <span className="text-gray-600">/</span>
+      <span className={lang === "ja" ? "text-white" : "text-gray-500"}>日本語</span>
+    </button>
   );
 }
 
@@ -77,6 +93,7 @@ export default function Nav() {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
+            <LangToggle />
             <a
               href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
               className="h-9 inline-flex items-center gap-2 rounded-full border border-white/20 px-5 text-sm font-medium text-white hover:bg-white/10 transition-colors"
@@ -120,6 +137,7 @@ export default function Nav() {
               </button>
             ))}
             <div className="pt-2 flex flex-col gap-3 border-t border-white/10">
+              <LangToggle />
               <a
                 href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
                 className="h-11 flex items-center justify-center gap-2 rounded-full border border-white/20 text-sm font-medium text-white"
