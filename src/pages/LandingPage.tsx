@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { SiYoutube, SiTiktok, SiInstagram } from "react-icons/si";
 import {
-  CheckCircle2, ChevronRight, FileText, Globe, Smartphone, Zap,
-  ArrowDown, Clock, Languages, Star, Download, ShieldCheck, Wifi,
-  BookOpen, TrendingUp, Brain, ArrowRight
+  CheckCircle2, ChevronRight, FileText, Smartphone, Zap,
+  ArrowDown, Download, ShieldCheck, Wifi, Play, ArrowRight
 } from "lucide-react";
 import Nav from "@/components/Nav";
 import HeroDemo from "@/components/HeroDemo";
@@ -12,7 +11,6 @@ import LiveDemo from "@/components/LiveDemo";
 import PhoneMockup from "@/components/PhoneMockup";
 import WaitlistForm from "@/components/WaitlistForm";
 import Footer from "@/components/Footer";
-import ParticleBg from "@/components/ParticleBg";
 
 function Counter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
@@ -41,21 +39,6 @@ const PLATFORMS = [
   { icon: FileText, color: "text-blue-400", label: "Articles & Papers" },
 ];
 
-const TESTIMONIALS = [
-  {
-    quote: "Sinalytic completely changed how I research. I paste 2-hour lecture videos and get the exact formulas and definitions in under 5 seconds.",
-    author: "A.R.", role: "Engineering Student, Jakarta", initials: "AR", rating: 5
-  },
-  {
-    quote: "I read dozens of papers a week. This tool gives me the core thesis instantly so I only deep-read the ones that actually matter.",
-    author: "M.K.", role: "Researcher, Kuala Lumpur", initials: "MK", rating: 5
-  },
-  {
-    quote: "The offline APK is a gamechanger. I sync summaries before every flight and get through a week's worth of learning without wifi.",
-    author: "S.T.", role: "Founder, Tokyo", initials: "ST", rating: 5
-  },
-];
-
 const APK_FEATURES = [
   { icon: <Wifi className="w-4 h-4" />, label: "100% Offline" },
   { icon: <ShieldCheck className="w-4 h-4" />, label: "No Signup" },
@@ -70,14 +53,30 @@ export default function LandingPage() {
 
       <main>
         {/* ─── HERO ─── */}
-        <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden min-h-[90vh] flex items-center">
-          {/* Particle + glow background */}
-          <div className="absolute inset-0 pointer-events-none">
-            <ParticleBg />
-            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[130px]" />
-            <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-900/15 rounded-full blur-[100px]" />
-            {/* Vignette overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/60 via-transparent to-[#0d0d0d]/80" />
+        <section className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden min-h-[95vh] flex items-center">
+          {/* ── Video background ── */}
+          <div className="absolute inset-0 overflow-hidden">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ opacity: 0.18 }}
+            >
+              <source
+                src="https://videos.pexels.com/video-files/3141207/3141207-hd_1920_1080_25fps.mp4"
+                type="video/mp4"
+              />
+              <source
+                src="https://videos.pexels.com/video-files/3256576/3256576-hd_1920_1080_24fps.mp4"
+                type="video/mp4"
+              />
+            </video>
+            {/* Gradient overlays on top of video */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/80 via-[#0d0d0d]/40 to-[#0d0d0d]/90" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(37,99,235,0.15)_0%,_transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(37,99,235,0.08)_0%,_transparent_60%)]" />
           </div>
 
           <div className="container mx-auto px-6 relative z-10 w-full">
@@ -103,18 +102,19 @@ export default function LandingPage() {
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3 mb-10">
-                  <a
-                    href="#demo"
-                    onClick={(e) => { e.preventDefault(); document.querySelector("#demo")?.scrollIntoView({ behavior: "smooth" }); }}
+                  {/* Primary: Watch Demo in Browser */}
+                  <button
+                    onClick={() => document.querySelector("#demo")?.scrollIntoView({ behavior: "smooth" })}
                     className="h-12 px-7 rounded-full bg-primary text-white font-bold hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 text-sm shadow-lg shadow-primary/25"
                   >
-                    Try the Demo <ChevronRight className="w-4 h-4" />
-                  </a>
+                    <Play className="w-4 h-4 fill-white" /> Watch Demo in Browser
+                  </button>
+                  {/* Secondary: Try Demo with APK */}
                   <a
                     href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
                     className="h-12 px-7 rounded-full border border-white/15 bg-white/5 text-white font-semibold hover:bg-white/10 active:scale-95 transition-all inline-flex items-center gap-2 text-sm"
                   >
-                    <Download className="w-4 h-4" /> Download APK
+                    <Download className="w-4 h-4" /> Try Demo with APK
                   </a>
                 </div>
 
@@ -144,13 +144,15 @@ export default function LandingPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
             >
-              <a href="#stats" onClick={(e) => { e.preventDefault(); document.querySelector("#stats")?.scrollIntoView({ behavior: "smooth" }); }}
-                className="flex flex-col items-center gap-1 text-gray-600 hover:text-gray-400 transition-colors">
+              <button
+                onClick={() => document.querySelector("#stats")?.scrollIntoView({ behavior: "smooth" })}
+                className="flex flex-col items-center gap-1 text-gray-600 hover:text-gray-400 transition-colors"
+              >
                 <span className="text-xs">Scroll to explore</span>
                 <motion.div animate={{ y: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
                   <ArrowDown className="w-4 h-4" />
                 </motion.div>
-              </a>
+              </button>
             </motion.div>
           </div>
         </section>
@@ -234,44 +236,6 @@ export default function LandingPage() {
               <p className="text-gray-400 text-lg">Pick a platform and hit Extract — watch AI compress hours into seconds.</p>
             </div>
             <LiveDemo />
-          </div>
-        </section>
-
-        {/* ─── TESTIMONIALS ─── */}
-        <section className="py-24 bg-[#f7f6f3]">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-14">
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Social proof</p>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-[#0d0d0d]">What learners say.</h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {TESTIMONIALS.map((t, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.12 }}
-                  className="p-8 bg-white border border-[#0d0d0d]/8 rounded-2xl flex flex-col hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex gap-0.5 mb-5">
-                    {Array.from({ length: t.rating }).map((_, s) => (
-                      <Star key={s} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-[#0d0d0d] leading-relaxed mb-6 flex-1 text-sm">"{t.quote}"</p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                    <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold shrink-0">
-                      {t.initials}
-                    </div>
-                    <div>
-                      <p className="font-bold text-[#0d0d0d] text-sm">{t.author}</p>
-                      <p className="text-gray-400 text-xs">{t.role}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -359,18 +323,17 @@ export default function LandingPage() {
             </motion.h2>
             <p className="text-gray-400 text-xl mb-10">No account. No credit card. Just paste a link.</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="#demo"
-                onClick={(e) => { e.preventDefault(); document.querySelector("#demo")?.scrollIntoView({ behavior: "smooth" }); }}
+              <button
+                onClick={() => document.querySelector("#demo")?.scrollIntoView({ behavior: "smooth" })}
                 className="h-14 px-10 rounded-full bg-primary text-white font-bold text-lg hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 shadow-lg shadow-primary/30"
               >
-                Try the Demo <ChevronRight className="w-5 h-5" />
-              </a>
+                <Play className="w-5 h-5 fill-white" /> Watch Demo in Browser
+              </button>
               <a
                 href="https://github.com/yusufsafary/sinalytica-landing/releases/download/v1.0/sinalytica-demo.apk"
                 className="h-14 px-10 rounded-full border border-white/15 bg-white/5 text-white font-bold text-lg hover:bg-white/10 transition-colors inline-flex items-center gap-2"
               >
-                <Download className="w-5 h-5" /> Download APK
+                <Download className="w-5 h-5" /> Try Demo with APK
               </a>
             </div>
           </div>
