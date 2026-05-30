@@ -13,11 +13,11 @@ const DEMOS = [
     title: "How to Build a $1M Startup in 12 Months",
     saved: "1h 42m",
     insights: [
-      "Distribution beats product in saturated markets — find your unfair channel first",
-      "Build for 100 users who love you, not 1000 who like you",
-      "Charge from day one — free users give bad signal and burn runway",
+      "Distribution beats product in saturated markets. Find your unfair channel first.",
+      "Build for 100 users who love you, not 1000 who like you.",
+      "Charge from day one. Free users give bad signal and burn runway.",
     ],
-    keyPoint: "Growth = Retention × Acquisition",
+    keyPoint: "Growth = Retention x Acquisition",
   },
   {
     type: "TikTok",
@@ -28,11 +28,11 @@ const DEMOS = [
     title: "Why Your Brain Hates Deep Work (Fix It)",
     saved: "3 min",
     insights: [
-      "Dopamine spikes from notifications physically shrink your prefrontal cortex over time",
-      "25-minute focus blocks (Pomodoro) match natural ultradian rhythm cycles",
-      "Cold exposure for 2 min before work boosts norepinephrine 300%",
+      "Dopamine spikes from notifications physically shrink your prefrontal cortex over time.",
+      "25-minute focus blocks (Pomodoro) match natural ultradian rhythm cycles.",
+      "Cold exposure for 2 min before work boosts norepinephrine by 300%.",
     ],
-    keyPoint: "Peak focus window: 60–90 min after waking",
+    keyPoint: "Peak focus window: 60-90 min after waking",
   },
   {
     type: "Instagram",
@@ -43,9 +43,9 @@ const DEMOS = [
     title: "The Psychology of Colour in UI Design",
     saved: "8 min",
     insights: [
-      "Blue increases trust by 34% — used by 33% of top brands globally",
-      "High contrast (4.5:1 ratio) is not just accessibility, it's conversion",
-      "Warm tones above the fold increase CTA click-through by up to 21%",
+      "Blue increases trust by 34%, used by 33% of top brands globally.",
+      "High contrast (4.5:1 ratio) is not just accessibility, it is conversion.",
+      "Warm tones above the fold increase CTA click-through by up to 21%.",
     ],
     keyPoint: "Colour = emotion + conversion",
   },
@@ -55,12 +55,12 @@ const DEMOS = [
     iconColor: "text-blue-400",
     badge: "bg-blue-700",
     url: "https://paulgraham.com/startupideas.html",
-    title: "How to Get Startup Ideas — Paul Graham",
+    title: "How to Get Startup Ideas by Paul Graham",
     saved: "22 min",
     insights: [
-      "The best ideas come from noticing your own problems, not brainstorming",
-      "Schlep blindness hides the most valuable opportunities from view",
-      "Organic ideas beat manufactured ones — live in the future, notice what's missing",
+      "The best ideas come from noticing your own problems, not brainstorming.",
+      "Schlep blindness hides the most valuable opportunities from view.",
+      "Organic ideas beat manufactured ones: live in the future, notice what is missing.",
     ],
     keyPoint: "Ideas = Problems you personally face",
   },
@@ -91,7 +91,7 @@ export default function HeroDemo() {
       {/* Window chrome */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-[#1a1a1a]">
         {DOT_COLORS.map((c, i) => <div key={i} className={`w-3 h-3 rounded-full ${c}`} />)}
-        <span className="ml-2 text-xs text-gray-600 font-mono flex-1 truncate">sinalytica.app</span>
+        <span className="ml-2 text-xs text-gray-600 font-mono flex-1 truncate">sinalytic.app</span>
       </div>
 
       <div className="p-5 flex flex-col gap-4">

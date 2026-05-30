@@ -13,14 +13,14 @@ const TABS = [
 const CONTENT = {
   youtube: {
     url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    title: "How to Build a Startup in 2025 — Full Playbook",
+    title: "How to Build a Startup in 2025: Full Playbook",
     time: "1h 42m",
     saved: "97 min saved",
     insights: [
-      { point: "Distribution beats product in crowded markets — find your unfair channel first", tag: "Strategy" },
-      { point: "Avoid 'tar pit' ideas that sound good but have structural flaws preventing monetisation", tag: "Ideation" },
-      { point: "Talk to 100 users before writing a single line of code — validate the pain, not the solution", tag: "Validation" },
-      { point: "Charge from day one. Free users give noisy signal and burn your runway faster than paying ones", tag: "Pricing" },
+      { point: "Distribution beats product in crowded markets. Find your unfair channel first.", tag: "Strategy" },
+      { point: "Avoid 'tar pit' ideas that sound good but have structural flaws preventing monetisation.", tag: "Ideation" },
+      { point: "Talk to 100 users before writing a single line of code. Validate the pain, not the solution.", tag: "Validation" },
+      { point: "Charge from day one. Free users give noisy signal and burn your runway faster than paying ones.", tag: "Pricing" },
     ],
     keyTakeaway: "Distribution = Growth. Build your channel before you build your product.",
     extractTime: "3.2s",
@@ -31,10 +31,10 @@ const CONTENT = {
     time: "3 min",
     saved: "2 min saved",
     insights: [
-      { point: "Dopamine spikes from notifications physically shrink the prefrontal cortex over time", tag: "Neuroscience" },
-      { point: "25-minute focus blocks (Pomodoro) align with natural ultradian rhythm cycles in the brain", tag: "Focus" },
-      { point: "Cold exposure for 2 minutes before work boosts norepinephrine by up to 300%", tag: "Performance" },
-      { point: "Your peak cognitive window is 60–90 minutes after waking — protect it ruthlessly", tag: "Timing" },
+      { point: "Dopamine spikes from notifications physically shrink the prefrontal cortex over time.", tag: "Neuroscience" },
+      { point: "25-minute focus blocks (Pomodoro) align with natural ultradian rhythm cycles in the brain.", tag: "Focus" },
+      { point: "Cold exposure for 2 minutes before work boosts norepinephrine by up to 300%.", tag: "Performance" },
+      { point: "Peak cognitive window is 60 to 90 minutes after waking. Protect it ruthlessly.", tag: "Timing" },
     ],
     keyTakeaway: "Peak focus = first 90 min after waking. Guard it like your best asset.",
     extractTime: "1.8s",
@@ -45,24 +45,24 @@ const CONTENT = {
     time: "8 min read",
     saved: "7 min saved",
     insights: [
-      { point: "Blue increases trust perception by 34% — used by 33% of Fortune 100 brands for this reason", tag: "Colour" },
-      { point: "High contrast ratios (4.5:1) aren't just accessibility — they directly improve conversion rates", tag: "Contrast" },
-      { point: "Warm tones above the fold increase CTA click-through by up to 21% in A/B tests", tag: "CTA" },
-      { point: "Negative space signals premium positioning — remove 30% of elements and watch trust rise", tag: "Layout" },
+      { point: "Blue increases trust perception by 34%, used by 33% of Fortune 100 brands for this reason.", tag: "Colour" },
+      { point: "High contrast ratios (4.5:1) are not just accessibility; they directly improve conversion rates.", tag: "Contrast" },
+      { point: "Warm tones above the fold increase CTA click-through by up to 21% in A/B tests.", tag: "CTA" },
+      { point: "Negative space signals premium positioning. Remove 30% of elements and watch trust rise.", tag: "Layout" },
     ],
-    keyTakeaway: "Colour is not decoration — it is conversion infrastructure.",
+    keyTakeaway: "Colour is not decoration. It is conversion infrastructure.",
     extractTime: "2.1s",
   },
   article: {
     url: "https://paulgraham.com/startupideas.html",
-    title: "How to Get Startup Ideas — Paul Graham",
+    title: "How to Get Startup Ideas by Paul Graham",
     time: "22 min",
     saved: "20 min saved",
     insights: [
-      { point: "The best startup ideas come from noticing your own problems, not manufactured brainstorming sessions", tag: "Ideas" },
-      { point: "Schlep blindness hides the most valuable opportunities — hard things look unappealing on purpose", tag: "Psychology" },
-      { point: "Organic ideas beat manufactured ones: live in the future, notice what's missing, then build it", tag: "Method" },
-      { point: "Ideas that seem niche or boring often have the strongest defensible moats once they work", tag: "Moats" },
+      { point: "The best startup ideas come from noticing your own problems, not manufactured brainstorming sessions.", tag: "Ideas" },
+      { point: "Schlep blindness hides the most valuable opportunities. Hard things look unappealing on purpose.", tag: "Psychology" },
+      { point: "Organic ideas beat manufactured ones: live in the future, notice what is missing, then build it.", tag: "Method" },
+      { point: "Ideas that seem niche or boring often have the strongest defensible moats once they work.", tag: "Moats" },
     ],
     keyTakeaway: "The best ideas feel obvious in hindsight. Notice problems in your own life first.",
     extractTime: "2.7s",
@@ -150,7 +150,6 @@ export default function LiveDemo() {
 
         {/* Result area */}
         <div className="min-h-[260px] bg-white/3 rounded-xl border border-white/5 p-5 relative overflow-hidden">
-          {/* Processing state */}
           {loading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#111110] gap-4">
               <div className="relative">
@@ -162,7 +161,7 @@ export default function LiveDemo() {
                 <Zap className="w-4 h-4 text-primary absolute inset-0 m-auto" />
               </div>
               <div className="text-center">
-                <p className="text-white font-medium text-sm">AI extracting knowledge…</p>
+                <p className="text-white font-medium text-sm">AI extracting knowledge...</p>
                 <motion.p
                   animate={{ opacity: [0.4, 1, 0.4] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
@@ -174,7 +173,6 @@ export default function LiveDemo() {
             </div>
           )}
 
-          {/* Empty state */}
           {!loading && !resultData && (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-600 gap-2">
               <Zap className="w-8 h-8 opacity-30" />
@@ -182,14 +180,12 @@ export default function LiveDemo() {
             </div>
           )}
 
-          {/* Result */}
           {!loading && resultData && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
             >
-              {/* Result header */}
               <div className="flex items-start justify-between gap-3 mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 flex-wrap mb-2">
@@ -215,7 +211,6 @@ export default function LiveDemo() {
                 </button>
               </div>
 
-              {/* Insights */}
               <div className="space-y-3 mb-4">
                 {resultData.insights.map((item, i) => (
                   <motion.div
@@ -238,7 +233,6 @@ export default function LiveDemo() {
                 ))}
               </div>
 
-              {/* Key takeaway */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

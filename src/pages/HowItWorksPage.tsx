@@ -14,14 +14,14 @@ const STEPS = [
     title: "Paste your link",
     desc: "Drop any URL from YouTube, TikTok, Instagram, or an article. Any language, any length.",
     icon: <Globe className="w-6 h-6" />,
-    detail: "Supports 4 platforms and counting. Works with links of any length — from 30-second TikToks to 4-hour university lectures.",
+    detail: "Supports 4 platforms and counting. Works with links of any length, from 30-second TikToks to 4-hour university lectures.",
   },
   {
     step: "02",
     title: "AI extracts",
     desc: "Our engine cuts through hours of content to find every key insight, fact, and takeaway.",
     icon: <Zap className="w-6 h-6" />,
-    detail: "Our model is trained to distinguish signal from noise. It identifies definitions, conclusions, timestamps, and quotable moments — not just summaries.",
+    detail: "Our model distinguishes signal from noise. It identifies definitions, conclusions, timestamps, and quotable moments. Not just summaries.",
   },
   {
     step: "03",
@@ -56,17 +56,17 @@ const FEATURES = [
   {
     icon: <Languages className="w-5 h-5" />,
     title: "10+ Languages",
-    desc: "Paste a video in Spanish, Arabic, or Japanese — read the summary in English. Fully multilingual.",
+    desc: "Paste a video in Spanish, Arabic, or Japanese and read the summary in English. Fully multilingual.",
   },
   {
     icon: <Wifi className="w-5 h-5" />,
     title: "Works Offline",
-    desc: "Save summaries to your Android device and read them anywhere — no internet required.",
+    desc: "Save summaries to your Android device and read them anywhere. No internet required.",
   },
   {
     icon: <TrendingUp className="w-5 h-5" />,
     title: "Key Takeaways",
-    desc: "Every summary ends with a single sharp insight — the one thing you need to remember.",
+    desc: "Every summary ends with a single sharp insight: the one thing you need to remember.",
   },
   {
     icon: <ShieldCheck className="w-5 h-5" />,
@@ -103,7 +103,7 @@ export default function HowItWorksPage() {
           </div>
         </section>
 
-        {/* Steps — detailed */}
+        {/* Steps */}
         <section className="py-16 bg-[#0d0d0d]">
           <div className="container mx-auto px-6">
             <div className="flex flex-col gap-8 max-w-4xl mx-auto">
@@ -140,7 +140,6 @@ export default function HowItWorksPage() {
           </div>
         </section>
 
-        {/* Divider */}
         <div className="border-t border-white/5 mx-6" />
 
         {/* Features */}
