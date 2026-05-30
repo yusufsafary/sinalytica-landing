@@ -55,29 +55,29 @@ function SocialStrip() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
-      className="flex flex-wrap items-center gap-2 pt-2"
+      className="flex items-center gap-2 pt-2 flex-wrap"
     >
-      <span className="text-xs text-gray-500 font-medium mr-1">{t.followUs}</span>
-      <a
-        href="https://x.com/Sinalyticalife"
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white"
-      >
-        <SiX className="w-3 h-3" />
-        @Sinalyticalife
-      </a>
-      <div className="flex items-center gap-1.5">
+      <span className="text-xs text-gray-500 font-medium">{t.followUs}</span>
+      <div className="flex items-center gap-2">
+        <a
+          href="https://x.com/Sinalyticalife"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white whitespace-nowrap"
+        >
+          <SiX className="w-3 h-3" />
+          @Sinalyticalife
+        </a>
         <a
           href="https://x.com/oroimho"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white whitespace-nowrap"
         >
           <SiX className="w-3 h-3" />
           @oroimho
+          <span className="text-[10px] text-gray-600">· {t.founderLabel}</span>
         </a>
-        <span className="text-[10px] text-gray-600 font-medium">{t.founderLabel}</span>
       </div>
     </motion.div>
   );
