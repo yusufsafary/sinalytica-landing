@@ -60,22 +60,22 @@ function SocialStrip() {
       <span className="text-xs text-gray-500 font-medium">{t.followUs}</span>
       <div className="flex items-center gap-2">
         <a
-          href="https://x.com/Sinalyticalife"
+          href="https://x.com/Sina"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white whitespace-nowrap"
         >
           <SiX className="w-3 h-3" />
-          @Sinalyticalife
+          @Sina
         </a>
         <a
-          href="https://x.com/oroimho"
+          href="https://x.com/Sina"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/25 transition-all text-xs text-gray-400 hover:text-white whitespace-nowrap"
         >
           <SiX className="w-3 h-3" />
-          @oroimho
+          @Sina
           <span className="text-[10px] text-gray-600">· {t.founderLabel}</span>
         </a>
       </div>
@@ -439,12 +439,12 @@ export default function LandingPage() {
               className="flex justify-center items-center gap-4 flex-wrap"
             >
               <span className="text-gray-600 text-sm">Follow us on X</span>
-              <a href="https://x.com/Sinalyticalife" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
-                <SiX className="w-3.5 h-3.5" /> @Sinalyticalife
+              <a href="https://x.com/Sina" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
+                <SiX className="w-3.5 h-3.5" /> @Sina
               </a>
               <span className="text-gray-700 text-xs">·</span>
-              <a href="https://x.com/oroimho" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
-                <SiX className="w-3.5 h-3.5" /> @oroimho
+              <a href="https://x.com/Sina" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors">
+                <SiX className="w-3.5 h-3.5" /> @Sina
               </a>
             </motion.div>
           </div>
