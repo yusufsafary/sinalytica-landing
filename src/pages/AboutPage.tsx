@@ -90,13 +90,13 @@ export default function AboutPage() {
                 className="flex-1 p-8 rounded-2xl border border-white/10 bg-white/[0.03]"
               >
                 <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-2xl font-black text-primary mb-5">O</div>
-                <h3 className="text-xl font-bold text-white mb-1">@oroimho</h3>
+                <h3 className="text-xl font-bold text-white mb-1">@Sina</h3>
                 <p className="text-primary text-sm font-semibold mb-3">Founder</p>
                 <p className="text-gray-500 text-sm leading-relaxed mb-5">
                   Builder and creator of Sinalytic. Obsessed with reducing the time it takes to extract value from content. Shipping in public.
                 </p>
                 <a
-                  href="https://x.com/oroimho"
+                  href="https://x.com/Sina"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
@@ -113,13 +113,13 @@ export default function AboutPage() {
                 className="flex-1 p-8 rounded-2xl border border-white/10 bg-white/[0.03]"
               >
                 <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-2xl font-black text-primary mb-5">S</div>
-                <h3 className="text-xl font-bold text-white mb-1">@Sinalyticalife</h3>
+                <h3 className="text-xl font-bold text-white mb-1">@Sina</h3>
                 <p className="text-primary text-sm font-semibold mb-3">Official Account</p>
                 <p className="text-gray-500 text-sm leading-relaxed mb-5">
                   Product updates, launch news, and behind-the-scenes building. Follow for early access announcements and changelog updates.
                 </p>
                 <a
-                  href="https://x.com/Sinalyticalife"
+                  href="https://x.com/Sina"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
