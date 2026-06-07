@@ -16,8 +16,8 @@ const LINKS = {
     { label: "Contact", href: "mailto:hello@sinalytic.life" },
   ],
   Community: [
-    { label: "@Sinalyticalife", href: "https://x.com/Sinalyticalife", ext: true },
-    { label: "@oroimho (Founder)", href: "https://x.com/oroimho", ext: true },
+    { label: "@Sina", href: "https://x.com/Sina", ext: true },
+    { label: "@Sina", href: "https://x.com/Sina", ext: true },
     { label: "Join Waitlist", href: "/#waitlist", ext: false },
     { label: "APK Releases", href: "https://github.com/yusufsafary/sinalytica-landing/releases", ext: true },
   ],
@@ -37,10 +37,10 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-3 mb-4">
               <a
-                href="https://x.com/Sinalyticalife"
+                href="https://x.com/Sina"
                 target="_blank"
                 rel="noreferrer"
-                title="@Sinalyticalife"
+                title="@Sina"
                 className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/15 transition-colors group"
               >
                 <SiX className="w-3.5 h-3.5 text-gray-400 group-hover:text-white transition-colors" />
@@ -66,14 +66,14 @@ export default function Footer() {
             <div className="text-xs text-gray-600 space-y-1">
               <div className="flex items-center gap-2">
                 <SiX className="w-3 h-3 shrink-0" />
-                <a href="https://x.com/Sinalyticalife" target="_blank" rel="noreferrer" className="hover:text-gray-400 transition-colors">
-                  @Sinalyticalife
+                <a href="https://x.com/Sina" target="_blank" rel="noreferrer" className="hover:text-gray-400 transition-colors">
+                  @Sina
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <SiX className="w-3 h-3 shrink-0" />
-                <a href="https://x.com/oroimho" target="_blank" rel="noreferrer" className="hover:text-gray-400 transition-colors">
-                  @oroimho <span className="text-gray-700">(Founder)</span>
+                <a href="https://x.com/Sina" target="_blank" rel="noreferrer" className="hover:text-gray-400 transition-colors">
+                  @Sina <span className="text-gray-700">(Founder)</span>
                 </a>
               </div>
             </div>
